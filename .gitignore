@@ -1,0 +1,10 @@
+*.o
+*.dis
+*.bin
+dead-os
+build/
+.vscode/
+TODO
+*.elf
+*.iso
+stage2_eltorito
