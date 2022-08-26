@@ -37,10 +37,10 @@ struct UnderlyingType
 template<typename T>
 using UnderlyingTypeT = UnderlyingType<T>::type;
 
-template <IsEnumC Enum> 
+template<IsEnumC Enum>
 constexpr static auto to_underlying_type(Enum e)
 {
-    return static_cast<UnderlyingTypeT<T>>(e);
+    return static_cast<UnderlyingTypeT<Enum>>(e);
 }
 
 } // namespace dt
