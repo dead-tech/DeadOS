@@ -1,4 +1,5 @@
-OBJECTS = loader.o kmain.o Framebuffer.o Cursor.o Io.o
+OBJECTS = loader.o kmain.o Framebuffer.o Cursor.o Io.o SerialPort.o \
+	DT/String.o
 CC = gcc
 CFLAGS = -std=c++20 -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
 			-nostartfiles -nodefaultlibs -Wall -Wextra -Werror -Wunused -I.
