@@ -1,4 +1,5 @@
-OBJECTS = loader.o kmain.o Framebuffer.o Cursor.o Io.o SerialPort.o \
+OBJECTS = loader.o kmain.o Framebuffer.o Cursor.o Io.o SerialPort.o GlobalDescriptorTable.o \
+	gdt.o \
 	dts/String.o
 CC = gcc
 CFLAGS = -std=c++20 -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
@@ -43,8 +44,14 @@ run: dead-os.iso
 %.o: Kernel/Io/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
+%.o: Kernel/GDT/%.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
+
 %.o: Kernel/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
+
+%.o: Kernel/GDT/%.s
+	$(AS) $(ASFLAGS) $< -o $@
 
 %.o: Kernel/%.s
 	$(AS) $(ASFLAGS) $< -o $@
