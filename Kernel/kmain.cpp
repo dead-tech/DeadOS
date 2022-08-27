@@ -1,4 +1,4 @@
-#include "GDT/GlobalDescriptorTable.hpp"
+#include "DescriptorTables/GlobalDescriptorTable.hpp"
 #include "Io/SerialPort.hpp"
 #include "Screen/Framebuffer.hpp"
 

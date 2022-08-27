@@ -44,13 +44,13 @@ run: dead-os.iso
 %.o: Kernel/Io/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
-%.o: Kernel/GDT/%.cpp
+%.o: Kernel/DescriptorTables/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
 %.o: Kernel/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
-%.o: Kernel/GDT/%.s
+%.o: Kernel/DescriptorTables/%.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 %.o: Kernel/%.s
