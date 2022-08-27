@@ -1,15 +1,15 @@
 #pragma once
 
-#include <DT/String.hpp>
-#include <DT/Types.hpp>
-#include <DT/TypeTraits.hpp>
+#include <dts/String.hpp>
+#include <dts/Types.hpp>
+#include <dts/TypeTraits.hpp>
 
 #include "../Charset/Charset.hpp"
 #include "Cursor.hpp"
 
 namespace Screen {
 
-enum class FramebufferColor : dt::u8
+enum class FramebufferColor : dts::u8
 {
     BLACK = 0,
     BLUE,
@@ -33,12 +33,12 @@ class Framebuffer
 {
   public:
     void write_char(const char ch);
-    void write_char(const char ch, const dt::u8 attribute);
+    void write_char(const char ch, const dts::u8 attribute);
     void write_char(const char ch, const FramebufferColor foreground);
     void write_char(const char ch, const FramebufferColor foreground, const FramebufferColor background);
 
     void write_cstr(const char *str);
-    void write_cstr(const char *str, const dt::u8 attribute);
+    void write_cstr(const char *str, const dts::u8 attribute);
     void write_cstr(const char *str, const FramebufferColor foreground);
     void write_cstr(const char *str, const FramebufferColor foreground, const FramebufferColor background);
 

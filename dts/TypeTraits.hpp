@@ -1,6 +1,6 @@
 #pragma once
 
-namespace dt {
+namespace dts {
 template<typename T, T v>
 struct IntegralConstant
 {
@@ -43,4 +43,4 @@ constexpr static auto to_underlying_type(Enum e)
     return static_cast<UnderlyingTypeT<Enum>>(e);
 }
 
-} // namespace dt
+} // namespace dts

@@ -2,18 +2,18 @@
 
 namespace Io {
 
-void outb(dt::u16 port, dt::u8 value) { asm volatile("outb %1, %0" : : "dN"(port), "a"(value)); }
+void outb(dts::u16 port, dts::u8 value) { asm volatile("outb %1, %0" : : "dN"(port), "a"(value)); }
 
-dt::u8 inb(dt::u16 port)
+dts::u8 inb(dts::u16 port)
 {
-    dt::u8 ret;
+    dts::u8 ret;
     asm volatile("inb %1, %0" : "=a"(ret) : "dN"(port));
     return ret;
 }
 
-dt::u16 inw(dt::u16 port)
+dts::u16 inw(dts::u16 port)
 {
-    dt::u16 ret;
+    dts::u16 ret;
     asm volatile("inw %1, %0" : "=a"(ret) : "dN"(port));
     return ret;
 }

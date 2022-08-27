@@ -1,6 +1,6 @@
 #include "String.hpp"
 
-namespace dt {
+namespace dts {
 
 u32 strlen(const char *str)
 {
@@ -19,4 +19,4 @@ void strcpy(char *dst, const char *src)
     dst[len] = '\0';
 }
 
-} // namespace dt
+} // namespace dts

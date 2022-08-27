@@ -4,7 +4,7 @@ namespace Screen {
 
 void Framebuffer::write_char(const char ch) { write_char(ch, FramebufferColor::WHITE, FramebufferColor::BLACK); }
 
-void Framebuffer::write_char(const char ch, const dt::u8 attribute)
+void Framebuffer::write_char(const char ch, const dts::u8 attribute)
 {
     volatile char *video_memory = reinterpret_cast<volatile char *>(0xb8000) + m_cursor.cursor_location() * 2;
 
@@ -39,15 +39,15 @@ void Framebuffer::write_char(const char ch, const dt::u8 attribute)
 
 void Framebuffer::write_char(const char ch, const FramebufferColor foreground)
 {
-    const dt::u8 attribute =
-      (dt::to_underlying_type(FramebufferColor::BLACK) << 4) | (dt::to_underlying_type(foreground) & 0x0F);
+    const dts::u8 attribute =
+      (dts::to_underlying_type(FramebufferColor::BLACK) << 4) | (dts::to_underlying_type(foreground) & 0x0F);
 
     write_char(ch, attribute);
 }
 
 void Framebuffer::write_char(const char ch, const FramebufferColor foreground, const FramebufferColor background)
 {
-    const dt::u8 attribute = (dt::to_underlying_type(background) << 4) | (dt::to_underlying_type(foreground) & 0x0F);
+    const dts::u8 attribute = (dts::to_underlying_type(background) << 4) | (dts::to_underlying_type(foreground) & 0x0F);
 
     write_char(ch, attribute);
 }
@@ -55,28 +55,28 @@ void Framebuffer::write_char(const char ch, const FramebufferColor foreground, c
 
 void Framebuffer::write_cstr(const char *str) { write_cstr(str, FramebufferColor::WHITE, FramebufferColor::BLACK); }
 
-void Framebuffer::write_cstr(const char *str, const dt::u8 attribute)
+void Framebuffer::write_cstr(const char *str, const dts::u8 attribute)
 {
-    for (dt::u32 i = 0; str[i] != 0; ++i) { write_char(str[i], attribute); }
+    for (dts::u32 i = 0; str[i] != 0; ++i) { write_char(str[i], attribute); }
 }
 
 void Framebuffer::write_cstr(const char *str, const FramebufferColor foreground)
 {
-    const dt::u8 attribute =
-      (dt::to_underlying_type(FramebufferColor::BLACK) << 4) | (dt::to_underlying_type(foreground) & 0x0F);
+    const dts::u8 attribute =
+      (dts::to_underlying_type(FramebufferColor::BLACK) << 4) | (dts::to_underlying_type(foreground) & 0x0F);
     write_cstr(str, attribute);
 }
 
 void Framebuffer::write_cstr(const char *str, const FramebufferColor foreground, const FramebufferColor background)
 {
-    const dt::u8 attribute = (dt::to_underlying_type(background) << 4) | (dt::to_underlying_type(foreground) & 0x0F);
+    const dts::u8 attribute = (dts::to_underlying_type(background) << 4) | (dts::to_underlying_type(foreground) & 0x0F);
     write_cstr(str, attribute);
 }
 
 void Framebuffer::clear()
 {
-    dt::u16 *video_memory = reinterpret_cast<dt::u16 *>(0xb8000);
-    for (dt::u32 i = 0; i < FB_COLUMNS * FB_ROWS; ++i) { video_memory[i] = CLEAR_CHARACTER; }
+    dts::u16 *video_memory = reinterpret_cast<dts::u16 *>(0xb8000);
+    for (dts::u32 i = 0; i < FB_COLUMNS * FB_ROWS; ++i) { video_memory[i] = CLEAR_CHARACTER; }
 
     // TODO: create m_cursor.reset() or something
     m_cursor.move_cursor(0, 0);
@@ -84,11 +84,11 @@ void Framebuffer::clear()
 
 void Framebuffer::scroll_if_necessary()
 {
-    dt::u16 *video_memory = reinterpret_cast<dt::u16 *>(0xb8000);
+    dts::u16 *video_memory = reinterpret_cast<dts::u16 *>(0xb8000);
     if (m_cursor.y() >= 25) {
-        for (dt::u32 i = 0; i < FB_COLUMNS * (FB_ROWS - 1); ++i) { video_memory[i] = video_memory[i + 80]; }
+        for (dts::u32 i = 0; i < FB_COLUMNS * (FB_ROWS - 1); ++i) { video_memory[i] = video_memory[i + 80]; }
 
-        for (dt::u32 i = (FB_ROWS - 1) * FB_COLUMNS; i < FB_COLUMNS * FB_ROWS; ++i) {
+        for (dts::u32 i = (FB_ROWS - 1) * FB_COLUMNS; i < FB_COLUMNS * FB_ROWS; ++i) {
             video_memory[i] = CLEAR_CHARACTER;
         }
 

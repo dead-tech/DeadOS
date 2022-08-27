@@ -1,11 +1,11 @@
 #pragma once
 
-#include <DT/Types.hpp>
+#include <dts/Types.hpp>
 
 namespace Io {
 
-void    outb(dt::u16 port, dt::u8 value);
-dt::u8  inb(dt::u16 port);
-dt::u16 inw(dt::u16 port);
+void     outb(dts::u16 port, dts::u8 value);
+dts::u8  inb(dts::u16 port);
+dts::u16 inw(dts::u16 port);
 
 } // namespace Io

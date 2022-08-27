@@ -1,24 +1,24 @@
 OBJECTS = loader.o kmain.o Framebuffer.o Cursor.o Io.o SerialPort.o \
-	DT/String.o
+	dts/String.o
 CC = gcc
 CFLAGS = -std=c++20 -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
 			-nostartfiles -nodefaultlibs -Wall -Wextra -Werror -Wunused -I.
 LDFLAGS = -T Kernel/link.ld -melf_i386
 AS = nasm
 ASFLAGS = -f elf
-LIBRARIES = libdt.a
-DT_OBJECTS = \
-	DT/String.o
+LIBRARIES = libdts.a
+dts_OBJECTS = \
+	dts/String.o
 
 all: kernel.elf
 
 kernel.elf: $(OBJECTS) ${LIBRARIES}
 	ld $(LDFLAGS) $(OBJECTS) -o kernel.elf
 
-libdt.a: DT/String.o
-	ar rcs DT/libdt.a DT/String.o
+libdts.a: dts/String.o
+	ar rcs dts/libdts.a dts/String.o
 
-DT/%.o: DT/%.cpp
+dts/%.o: dts/%.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 dead-os.iso: kernel.elf

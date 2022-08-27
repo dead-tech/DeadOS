@@ -2,7 +2,7 @@
 
 namespace Io {
 
-SerialPort SerialPort::init(dt::u32 serial_port)
+SerialPort SerialPort::init(dts::u32 serial_port)
 {
     SerialPort port(serial_port);
     outb(serial_port + 1, 0x00); // Disable all interrupts
@@ -28,7 +28,7 @@ SerialPort SerialPort::init(dt::u32 serial_port)
     return port;
 }
 
-SerialPort::SerialPort(dt::u32 serial_port) : m_serial_port{ serial_port } {}
+SerialPort::SerialPort(dts::u32 serial_port) : m_serial_port{ serial_port } {}
 
 bool SerialPort::serial_received() const { return inb(m_serial_port + 5) & 0x1; }
 
@@ -50,7 +50,7 @@ void SerialPort::write_char(const char ch) const
 
 void SerialPort::write_cstr(const char *str) const
 {
-    for (dt::u32 i = 0; str[i] != 0; ++i) { write_char(str[i]); }
+    for (dts::u32 i = 0; str[i] != 0; ++i) { write_char(str[i]); }
 }
 
 } // namespace Io
