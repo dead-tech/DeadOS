@@ -53,21 +53,21 @@ void Framebuffer::write_char(const char ch, const FramebufferColor foreground, c
 }
 
 
-void Framebuffer::write_cstr(char *str) { write_cstr(str, FramebufferColor::WHITE, FramebufferColor::BLACK); }
+void Framebuffer::write_cstr(const char *str) { write_cstr(str, FramebufferColor::WHITE, FramebufferColor::BLACK); }
 
-void Framebuffer::write_cstr(char *str, const dt::u8 attribute)
+void Framebuffer::write_cstr(const char *str, const dt::u8 attribute)
 {
-    for (char *ch = str; *ch != 0; ++ch) { write_char(*ch, attribute); }
+    for (dt::u32 i = 0; str[i] != 0; ++i) { write_char(str[i], attribute); }
 }
 
-void Framebuffer::write_cstr(char *str, const FramebufferColor foreground)
+void Framebuffer::write_cstr(const char *str, const FramebufferColor foreground)
 {
     const dt::u8 attribute =
       (dt::to_underlying_type(FramebufferColor::BLACK) << 4) | (dt::to_underlying_type(foreground) & 0x0F);
     write_cstr(str, attribute);
 }
 
-void Framebuffer::write_cstr(char *str, const FramebufferColor foreground, const FramebufferColor background)
+void Framebuffer::write_cstr(const char *str, const FramebufferColor foreground, const FramebufferColor background)
 {
     const dt::u8 attribute = (dt::to_underlying_type(background) << 4) | (dt::to_underlying_type(foreground) & 0x0F);
     write_cstr(str, attribute);
