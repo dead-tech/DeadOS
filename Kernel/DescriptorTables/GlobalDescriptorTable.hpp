@@ -35,6 +35,5 @@ void insert_new_descriptor(
 void insert_null_descriptor(Descriptor *descriptors);
 
 extern "C" void load_gdt(DescriptorTablePointer *descriptor_table_ptr);
-extern "C" void reload_segment_registers();
 
 } // namespace Gdt

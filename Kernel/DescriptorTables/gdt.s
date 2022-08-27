@@ -1,11 +1,9 @@
 global load_gdt
-global reload_segment_registers
 
 load_gdt:
+    cli
     lgdt [esp + 4]
     ret
-
-reload_segment_registers:
     mov ax, 0x10
     mov ds, ax
     mov ss, ax

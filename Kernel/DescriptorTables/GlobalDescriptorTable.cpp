@@ -8,15 +8,14 @@ void init()
 
     insert_null_descriptor(descriptors);
 
-    DescriptorTablePointer descriptor_table_ptr{ .address = reinterpret_cast<dts::u32>(&descriptors),
-                                                 .size    = (sizeof(Descriptor) * descriptor_count) - 1 };
+    DescriptorTablePointer descriptor_table_ptr{ .address = reinterpret_cast<dts::u32>(descriptors),
+                                                 .size    = sizeof(descriptors) - 1 };
 
     // FIXME: create appropriate enumerations for these magic values
     insert_new_descriptor(descriptors, 1, 0, 0xFFFFFFFF, 0x9A, 0xCF);
     insert_new_descriptor(descriptors, 2, 0, 0xFFFFFFFF, 0x92, 0xCF);
 
     load_gdt(&descriptor_table_ptr);
-    reload_segment_registers();
 }
 
 void insert_new_descriptor(
@@ -27,14 +26,14 @@ void insert_new_descriptor(
   const dts::u8  access_byte,
   const dts::u8  granularity)
 {
-    descriptors[index].base_low    = (base_address & 0XFFFF);
-    descriptors[index].base_middle = (base_address << 16) & 0XFF;
-    descriptors[index].base_high   = (base_address << 24) & 0XFF;
+    descriptors[index].base_low    = (base_address & 0xFFFF);
+    descriptors[index].base_middle = (base_address >> 16) & 0xFF;
+    descriptors[index].base_high   = (base_address >> 24) & 0xFF;
 
     descriptors[index].limit_low = (limit & 0xFFFF);
 
-    descriptors[index].granularity = (limit & 16) & 0x0F;
-    descriptors[index].granularity |= granularity & 0x0F;
+    descriptors[index].granularity = (limit >> 16) & 0x0F;
+    descriptors[index].granularity |= granularity & 0xF0;
 
     descriptors[index].access_byte = access_byte;
 }
