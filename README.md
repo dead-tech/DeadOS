@@ -1,4 +1,4 @@
-![Build Status](https://github.com/dead-tech/dead-os/actions/workflows/build.yml/badge.svg)
+![Build Status](https://github.com/dead-tech/DeadOS/actions/workflows/build.yml/badge.svg)
 
 # dead
 
