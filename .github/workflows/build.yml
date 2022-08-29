@@ -16,10 +16,10 @@ jobs:
       - uses: ilammy/setup-nasm@v1
       - uses: actions/checkout@v2
       - name: Get Latest G++/GCC version
-        run: sudo apt install gcc-11 g++-11
-      - name: Set CXX=g++-11
-        run: echo "CXX=g++-11" >> $GITHUB_ENV
-      - name: Set CC=gcc-11
-        run: echo "CC=gcc-11" >> $GITHUB_ENV
+        run: sudo apt install gcc-12 g++-12
+      - name: Set CXX=g++-12
+        run: echo "CXX=g++-12" >> $GITHUB_ENV
+      - name: Set CC=gcc-12
+        run: echo "CC=gcc-12" >> $GITHUB_ENV
       - name: Build
         run: cd ${{github.workspace}} && make
