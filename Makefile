@@ -1,7 +1,7 @@
 OS_NAME = DeadOS
 
 CC = gcc
-CFLAGS = -std=c++20 -m32 -g -O0 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -ffreestanding \
+CFLAGS = -std=c++2a -m32 -g -O0 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -ffreestanding \
 			-nostartfiles -nodefaultlibs -Wall -Wextra -Werror -Wunused -I.
 
 LD = ld
