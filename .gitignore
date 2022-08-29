@@ -9,3 +9,5 @@ TODO
 *.iso
 stage2_eltorito
 *.a
+bochs*.*
+*.ini

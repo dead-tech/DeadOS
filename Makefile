@@ -2,11 +2,11 @@ OBJECTS = loader.o kmain.o Framebuffer.o Cursor.o Io.o SerialPort.o GlobalDescri
 	gdt.o \
 	dts/String.o
 CC = gcc
-CFLAGS = -std=c++20 -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
+CFLAGS = -std=c++20 -m32 -g -O0 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -ffreestanding \
 			-nostartfiles -nodefaultlibs -Wall -Wextra -Werror -Wunused -I.
 LDFLAGS = -T Kernel/link.ld -melf_i386
 AS = nasm
-ASFLAGS = -f elf
+ASFLAGS = -f elf -g
 LIBRARIES = libdts.a
 dts_OBJECTS = \
 	dts/String.o
@@ -37,6 +37,12 @@ dead-os.iso: kernel.elf
 
 run: dead-os.iso
 	qemu-system-i386 -enable-kvm -boot d -cdrom dead-os.iso -m 4 -serial stdio
+
+gdb: dead-os.iso
+	qemu-system-i386 --enable-kvm -boot d -cdrom dead-os.iso -m 4 -S -s
+
+bochs: dead-os.iso
+	bochs -f bochsrc.txt -q
 
 %.o: Kernel/Screen/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
