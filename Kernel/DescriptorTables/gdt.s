@@ -1,16 +1,17 @@
 global load_gdt
 
+section .text
 load_gdt:
-    cli
-    lgdt [esp + 4]
-    ret
+    mov eax, [esp + 4]
+    lgdt [eax]
+
+    jmp 0x08:flush
+
+flush:
     mov ax, 0x10
     mov ds, ax
-    mov ss, ax
     mov es, ax
     mov fs, ax
     mov gs, ax
-    jmp 0x08:flush_cs
-
-flush_cs:
+    mov ss, ax
     ret
