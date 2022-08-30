@@ -10,6 +10,8 @@ void Framebuffer::write_char(const char ch, const dts::u8 attribute)
 
     switch (ch) {
         case Charset::BACKSPACE: {
+            *video_memory-- = ' ';
+            *video_memory-- = 0x0f;
             Cursor::backspace();
             break;
         }

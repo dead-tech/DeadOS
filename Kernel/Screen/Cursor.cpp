@@ -42,7 +42,11 @@ void Cursor::decrease_y(dts::u16 amount) { move_cursor(x(), y() - amount); }
 
 void Cursor::backspace()
 {
-    if (x() > 0) { decrease_x(); }
+    if (x() > 0) {
+        decrease_x();
+    } else {
+        move_cursor(COLUMNS - 1, y() - 1);
+    }
 }
 
 void Cursor::carriage_return() { move_cursor(0, y()); }

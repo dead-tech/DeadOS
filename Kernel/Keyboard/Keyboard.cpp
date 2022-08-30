@@ -9,12 +9,16 @@ static void keyboard_callback([[maybe_unused]] Isr::CpuRegisters regs)
         const dts::u8 key = Io::inb(KEYBOARD_DATA_PORT);
 
         switch (key) {
-            case 0x1C: {
-                Screen::Cursor::newline();
+            case ENTER: {
+                Screen::Framebuffer::write_char('\n');
                 break;
             }
-            case 0x0E: {
-                Screen::Cursor::decrease_x();
+            case BACKSPACE: {
+                Screen::Framebuffer::write_char(Charset::BACKSPACE);
+                break;
+            }
+            case TAB: {
+                Screen::Framebuffer::write_char(Charset::TAB);
                 break;
             }
             default: {

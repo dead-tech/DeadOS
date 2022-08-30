@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Charset/Charset.hpp"
 #include "../DescriptorTables/InterruptRequest.hpp"
 #include "../DescriptorTables/InterruptServiceRoutine.hpp"
 #include "../Io/Io.hpp"

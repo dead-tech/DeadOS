@@ -4,6 +4,10 @@
 
 namespace Keyboard {
 
+constexpr static auto ENTER     = 0x1C;
+constexpr static auto BACKSPACE = 0x0E;
+constexpr static auto TAB       = 0x0F;
+
 inline dts::u8 keyboard_map[128] = {
     // -------- 0 to 9 --------
     ' ',
@@ -148,4 +152,4 @@ inline dts::u8 keyboard_map[128] = {
     ' ',
 };
 
-}
+} // namespace Keyboard
