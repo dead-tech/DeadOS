@@ -8,8 +8,9 @@ static void timer_callback([[maybe_unused]] Isr::CpuRegisters regs) {}
 void init(dts::u32 frequency)
 {
     Irq::register_interrupt_handler(0, &timer_callback);
+    debug("Timer interrupt handler initialized!")
 
-    dts::u32 scaled_frequency = PIT_MAX_HZ / frequency; // PIC input frequence / our custom frequency
+      dts::u32 scaled_frequency = PIT_MAX_HZ / frequency; // PIC input frequence / our custom frequency
 
     Io::outb(PIT_COMMAND_PORT, PIT_REPEAT);
 

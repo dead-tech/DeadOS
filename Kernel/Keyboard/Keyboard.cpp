@@ -26,8 +26,8 @@ static void keyboard_callback([[maybe_unused]] Isr::CpuRegisters regs)
 
 void init()
 {
-    Io::outb(Pic::MASTER_PIC_DATA, 0xFC);
     Irq::register_interrupt_handler(1, &keyboard_callback);
+    debug("Keyboard driver initialized!");
 }
 
 } // namespace Keyboard
