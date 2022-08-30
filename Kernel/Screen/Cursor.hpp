@@ -9,31 +9,28 @@ namespace Screen {
 class Cursor
 {
   public:
-    void enable() const;
-    void disable() const;
+    static void init(dts::u8 cursor_start = 0, dts::u8 cursor_end = 15);
+    static void disable();
 
-    [[nodiscard]] dts::u16 x() const;
-    [[nodiscard]] dts::u16 y() const;
-    [[nodiscard]] dts::u16 cursor_location() const;
+    [[nodiscard]] static dts::u16 x();
+    [[nodiscard]] static dts::u16 y();
+    [[nodiscard]] static dts::u16 cursor_location();
 
-    void increase_x(dts::u16 amount = 1);
-    void increase_y(dts::u16 amount = 1);
-    void decrease_x(dts::u16 amount = 1);
-    void decrease_y(dts::u16 amount = 1);
+    static void increase_x(dts::u16 amount = 1);
+    static void increase_y(dts::u16 amount = 1);
+    static void decrease_x(dts::u16 amount = 1);
+    static void decrease_y(dts::u16 amount = 1);
 
-    void backspace();
-    void tab();
-    void carriage_return();
-    void newline();
-    void insert_newline_if_necessary();
+    static void backspace();
+    static void tab();
+    static void carriage_return();
+    static void newline();
+    static void insert_newline_if_necessary();
 
-    void move_cursor(dts::u16 x, dts::u16 y);
+    static void move_cursor(dts::u16 x, dts::u16 y);
 
   private:
-    dts::u16 m_x               = 0;
-    dts::u16 m_y               = 0;
-    dts::u16 m_cursor_location = 0;
-
+    Cursor();
     constexpr static auto    FB_COMMAND_PORT      = 0x3D4;
     constexpr static auto    FB_DATA_PORT         = 0x3D5;
     constexpr static dts::u8 FB_HIGH_BYTE_COMMAND = 0x0E;

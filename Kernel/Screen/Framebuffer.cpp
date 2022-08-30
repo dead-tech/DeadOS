@@ -6,23 +6,23 @@ void Framebuffer::write_char(const char ch) { write_char(ch, FramebufferColor::W
 
 void Framebuffer::write_char(const char ch, const dts::u8 attribute)
 {
-    volatile char *video_memory = reinterpret_cast<volatile char *>(0xb8000) + m_cursor.cursor_location() * 2;
+    volatile char *video_memory = reinterpret_cast<volatile char *>(0xb8000) + Cursor::cursor_location() * 2;
 
     switch (ch) {
         case Charset::BACKSPACE: {
-            m_cursor.backspace();
+            Cursor::backspace();
             break;
         }
         case Charset::TAB: {
-            m_cursor.tab();
+            Cursor::tab();
             break;
         }
         case Charset::CARRIAGE_RETURN: {
-            m_cursor.carriage_return();
+            Cursor::carriage_return();
             break;
         }
         case Charset::NEWLINE: {
-            m_cursor.newline();
+            Cursor::newline();
             break;
         }
     }
@@ -30,10 +30,10 @@ void Framebuffer::write_char(const char ch, const dts::u8 attribute)
     if (ch >= Charset::SPACE) {
         *video_memory++ = ch;
         *video_memory++ = attribute;
-        m_cursor.increase_x();
+        Cursor::increase_x();
     }
 
-    m_cursor.insert_newline_if_necessary();
+    Cursor::insert_newline_if_necessary();
     scroll_if_necessary();
 }
 
@@ -78,21 +78,21 @@ void Framebuffer::clear()
     dts::u16 *video_memory = reinterpret_cast<dts::u16 *>(0xb8000);
     for (dts::u32 i = 0; i < FB_COLUMNS * FB_ROWS; ++i) { video_memory[i] = CLEAR_CHARACTER; }
 
-    // TODO: create m_cursor.reset() or something
-    m_cursor.move_cursor(0, 0);
+    // TODO: create Cursor::reset() or something
+    Cursor::move_cursor(0, 0);
 }
 
 void Framebuffer::scroll_if_necessary()
 {
     dts::u16 *video_memory = reinterpret_cast<dts::u16 *>(0xb8000);
-    if (m_cursor.y() >= 25) {
+    if (Cursor::y() >= 25) {
         for (dts::u32 i = 0; i < FB_COLUMNS * (FB_ROWS - 1); ++i) { video_memory[i] = video_memory[i + 80]; }
 
         for (dts::u32 i = (FB_ROWS - 1) * FB_COLUMNS; i < FB_COLUMNS * FB_ROWS; ++i) {
             video_memory[i] = CLEAR_CHARACTER;
         }
 
-        m_cursor.decrease_y();
+        Cursor::decrease_y();
     }
 }
 

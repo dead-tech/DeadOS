@@ -47,8 +47,6 @@ class Framebuffer
   private:
     void scroll_if_necessary();
 
-    Cursor m_cursor;
-
     constexpr static auto FB_COLUMNS = 80;
     constexpr static auto FB_ROWS    = 25;
 

@@ -7,6 +7,7 @@
 
 void main()
 {
+    Screen::Cursor::init();
     asm volatile("cli");
     Io::SerialPort com1_port = Io::SerialPort::init(Io::COM1_SERIAL_PORT);
     com1_port.write_cstr("COM1: Calling Gdt::init()\n");
