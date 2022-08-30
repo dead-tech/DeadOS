@@ -11,3 +11,4 @@ stage2_eltorito
 *.a
 bochs*.*
 *.ini
+.gdbinit

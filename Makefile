@@ -76,7 +76,8 @@ run: $(OS_NAME).iso
 	qemu-system-i386 -enable-kvm -boot d -cdrom $< -m 4 -serial stdio
 
 gdb: $(OS_NAME).iso
-	qemu-system-i386 --enable-kvm -boot d -cdrom $< -m 4 -S -s
+	qemu-system-i386 --enable-kvm -boot d -cdrom $< -m 4 -S -s &
+	gdb -x .gdbinit -q $(BUILD_DIR)/kernel.elf
 
 bochs: $(OS_NAME).iso
 	bochs -f bochsrc.txt -q
