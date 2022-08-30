@@ -8,7 +8,7 @@ LD = ld
 LDFLAGS = -T Kernel/link.ld -melf_i386 -Lbuild -ldts
 
 ASM = nasm
-ASMFLAGS = -f elf -g
+ASMFLAGS = -f elf -g -I Kernel
 
 AR = ar
 ARFLAGS = rcs
