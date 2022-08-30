@@ -2,10 +2,10 @@
 
 namespace Gdt {
 
+static DescriptorEntry descriptors[descriptor_count];
+
 void init()
 {
-    DescriptorEntry descriptors[descriptor_count];
-
     insert_null_descriptor(descriptors);
     DescriptorTable descriptor_table{ .size    = sizeof(DescriptorEntry) * descriptor_count - 1,
                                       .address = reinterpret_cast<dts::u32>(descriptors) };
