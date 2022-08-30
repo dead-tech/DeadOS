@@ -65,4 +65,6 @@ void Cursor::move_cursor(dts::u16 x, dts::u16 y)
     Io::outb(FB_DATA_PORT, (pos & 0xFF));
 }
 
+void Cursor::reset() { move_cursor(0, 0); }
+
 } // namespace Screen

@@ -28,6 +28,7 @@ class Cursor
     static void insert_newline_if_necessary();
 
     static void move_cursor(dts::u16 x, dts::u16 y);
+    static void reset();
 
   private:
     Cursor();
