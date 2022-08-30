@@ -32,20 +32,20 @@ enum class FramebufferColor : dts::u8
 class Framebuffer
 {
   public:
-    void write_char(const char ch);
-    void write_char(const char ch, const dts::u8 attribute);
-    void write_char(const char ch, const FramebufferColor foreground);
-    void write_char(const char ch, const FramebufferColor foreground, const FramebufferColor background);
+    static void write_char(const char ch);
+    static void write_char(const char ch, const dts::u8 attribute);
+    static void write_char(const char ch, const FramebufferColor foreground);
+    static void write_char(const char ch, const FramebufferColor foreground, const FramebufferColor background);
 
-    void write_cstr(const char *str);
-    void write_cstr(const char *str, const dts::u8 attribute);
-    void write_cstr(const char *str, const FramebufferColor foreground);
-    void write_cstr(const char *str, const FramebufferColor foreground, const FramebufferColor background);
+    static void write_cstr(const char *str);
+    static void write_cstr(const char *str, const dts::u8 attribute);
+    static void write_cstr(const char *str, const FramebufferColor foreground);
+    static void write_cstr(const char *str, const FramebufferColor foreground, const FramebufferColor background);
 
-    void clear();
+    static void clear();
 
   private:
-    void scroll_if_necessary();
+    static void scroll_if_necessary();
 
     constexpr static auto FB_COLUMNS = 80;
     constexpr static auto FB_ROWS    = 25;

@@ -3,11 +3,7 @@
 namespace Pit {
 
 
-static void timer_callback([[maybe_unused]] Isr::CpuRegisters regs)
-{
-    static Screen::Framebuffer framebuffer;
-    framebuffer.write_cstr("Ticked!\n");
-}
+static void timer_callback([[maybe_unused]] Isr::CpuRegisters regs) { Screen::Framebuffer::write_cstr("Ticked!\n"); }
 
 void init(dts::u32 frequency)
 {

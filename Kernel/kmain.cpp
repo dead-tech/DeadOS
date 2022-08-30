@@ -20,12 +20,8 @@ void main()
 
     Pit::init(50);
 
-    {
-        Screen::Framebuffer framebuffer;
-        framebuffer.clear();
-        char buffer[] = "Welcome to DeadOS";
-        framebuffer.write_cstr(buffer);
-    }
+    Screen::Framebuffer::clear();
+    Screen::Framebuffer::write_cstr("Welcome to DeadOS");
 
     asm volatile("sti");
     com1_port.write_cstr("COM1: Interrupts Enabled!\n");
