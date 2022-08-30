@@ -3,27 +3,34 @@
 #include <dts/String.hpp>
 #include <dts/Types.hpp>
 
+#include "../Screen/Framebuffer.hpp"
 #include "Io.hpp"
 
+#define STRINGIFY(x) STRINGIFY_IMPL(x)
+#define STRINGIFY_IMPL(x) #x
+#define debug(msg)                                                           \
+    Io::SerialPort::write_cstr("#(" __FILE__ ":" STRINGIFY(__LINE__) "): "); \
+    Io::SerialPort::write_cstr(msg);                                         \
+    Io::SerialPort::write_char('\n');
+
 namespace Io {
+
 constexpr static dts::u32 COM1_SERIAL_PORT = 0x3F8;
 
 class SerialPort
 {
   public:
-    static SerialPort init(dts::u32 serial_port);
+    static dts::i8 init();
 
-    [[nodiscard]] bool serial_received() const;
-    [[nodiscard]] char read_serial() const;
+    [[nodiscard]] static bool serial_received();
+    [[nodiscard]] static char read_serial();
 
-    [[nodiscard]] bool is_transmit_empty() const;
-    void               write_char(const char ch) const;
-    void               write_cstr(const char *str) const;
+    [[nodiscard]] static bool is_transmit_empty();
+    static void               write_char(const char ch);
+    static void               write_cstr(const char *str);
 
   private:
-    SerialPort(dts::u32 serial_port);
-
-    dts::u32 m_serial_port;
+    SerialPort();
 };
 
 } // namespace Io

@@ -14,6 +14,8 @@ void init()
     Pic::remap(0x20, 0x28);
 
     load_idt(&descriptor_table);
+
+    debug("IDT loaded!")
 }
 
 void insert_new_descriptor(dts::u32 index, dts::u32 base_address, dts::u16 segment_selector, dts::u8 flags)

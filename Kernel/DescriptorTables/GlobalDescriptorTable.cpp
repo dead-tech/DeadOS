@@ -48,6 +48,8 @@ void init()
       BIT32_OPERAND_SIZE_4KB_GRANULARITY);
 
     load_gdt(&descriptor_table);
+
+    debug("GDT loaded!");
 }
 
 void insert_new_descriptor(

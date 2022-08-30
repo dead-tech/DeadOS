@@ -25,6 +25,8 @@ void remap(dts::u32 master_offset, dts::u32 slave_offset)
 
     Io::outb(MASTER_PIC_DATA, 0xfe); // Always have the timer interrupt enabled
     Io::outb(SLAVE_PIC_DATA, 0xff);
+
+    debug("PIC remapped!")
 }
 
 } // namespace Pic

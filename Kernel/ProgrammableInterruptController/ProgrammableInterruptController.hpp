@@ -3,6 +3,7 @@
 #include <dts/Types.hpp>
 
 #include "../Io/Io.hpp"
+#include "../Io/SerialPort.hpp"
 
 namespace Pic {
 

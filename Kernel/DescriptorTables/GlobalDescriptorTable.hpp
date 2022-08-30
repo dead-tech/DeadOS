@@ -3,6 +3,8 @@
 #include <dts/Types.hpp>
 #include <dts/TypeTraits.hpp>
 
+#include "../Io/SerialPort.hpp"
+
 namespace Gdt {
 
 constexpr static dts::u8 descriptor_count = 3;

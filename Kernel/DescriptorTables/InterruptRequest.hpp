@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Io/SerialPort.hpp"
 #include "InterruptServiceRoutine.hpp"
 
 namespace Irq {

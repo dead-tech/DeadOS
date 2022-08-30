@@ -2,6 +2,7 @@
 
 #include <dts/Types.hpp>
 
+#include "../Io/SerialPort.hpp"
 #include "InterruptDescriptorTable.hpp"
 
 

@@ -3,11 +3,10 @@
 namespace Pit {
 
 
-static void timer_callback([[maybe_unused]] Isr::CpuRegisters regs) { Screen::Framebuffer::write_cstr("Ticked!\n"); }
+static void timer_callback([[maybe_unused]] Isr::CpuRegisters regs) {}
 
 void init(dts::u32 frequency)
 {
-    // TODO: make the index of the first irq (irq0) available
     Irq::register_interrupt_handler(0, &timer_callback);
 
     dts::u32 scaled_frequency = PIT_MAX_HZ / frequency; // PIC input frequence / our custom frequency

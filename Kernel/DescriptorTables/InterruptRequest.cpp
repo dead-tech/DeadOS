@@ -12,6 +12,8 @@ void irq_handler([[maybe_unused]] Isr::CpuRegisters registers)
 
     if (irq_handlers[registers.interrupt_number - 32] != 0) {
         irq_handlers[registers.interrupt_number - 32](registers);
+    } else {
+        debug("[WARNING]: Unhandled Interrupt!")
     }
 }
 

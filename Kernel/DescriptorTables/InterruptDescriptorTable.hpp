@@ -3,6 +3,7 @@
 #include <dts/Types.hpp>
 
 #include "../Io/Io.hpp"
+#include "../Io/SerialPort.hpp"
 #include "../ProgrammableInterruptController/ProgrammableInterruptController.hpp"
 #include "../Screen/Framebuffer.hpp"
 #include "ISRGates.hpp"
