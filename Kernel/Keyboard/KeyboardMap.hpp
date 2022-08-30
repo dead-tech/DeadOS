@@ -4,8 +4,7 @@
 
 namespace Keyboard {
 
-
-dts::u8 keyboard_map[128] = {
+inline dts::u8 keyboard_map[128] = {
     // -------- 0 to 9 --------
     ' ',
     ' ', // 1: escape key
