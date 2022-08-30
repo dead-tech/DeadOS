@@ -2,6 +2,7 @@
 #include "DescriptorTables/InterruptDescriptorTable.hpp"
 #include "DescriptorTables/InterruptServiceRoutine.hpp"
 #include "Io/SerialPort.hpp"
+#include "Keyboard/Keyboard.hpp"
 #include "ProgrammableIntervalTimer/ProgrammableIntervalTimer.hpp"
 #include "Screen/Framebuffer.hpp"
 
@@ -10,6 +11,7 @@ void main()
     asm volatile("cli");
 
     Screen::Cursor::init();
+    Keyboard::init();
     Io::SerialPort::init();
 
     Gdt::init();
