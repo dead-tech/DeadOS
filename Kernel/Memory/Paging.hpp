@@ -6,7 +6,6 @@
 
 #include "../DescriptorTables/InterruptServiceRoutine.hpp"
 #include "../Io/SerialPort.hpp"
-#include "kmalloc.hpp"
 
 namespace Mem {
 

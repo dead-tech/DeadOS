@@ -45,7 +45,7 @@ PageEntry *get_page(const virtual_address address)
 
 void *allocate_page(PageEntry *page)
 {
-    void *block = kmalloc_aligned(PAGE_SIZE);
+    void *block = dts::kmalloc_aligned(PAGE_SIZE);
     if (block != nullptr) {
         set_frame(page, reinterpret_cast<physical_address>(block));
         set_flag(page, dts::to_underlying_type(PageFlags::PRESENT));
@@ -88,7 +88,7 @@ bool map_page(void *phys_address, void *virt_address)
     TableEntry *entry = &page_directory->tables[page_directory_index(reinterpret_cast<dts::u32>(virt_address))];
 
     if ((*entry & dts::to_underlying_type(PageFlags::PRESENT)) != dts::to_underlying_type(PageFlags::PRESENT)) {
-        auto *table = reinterpret_cast<PageTable *>(kmalloc_aligned(PAGE_SIZE));
+        auto *table = reinterpret_cast<PageTable *>(dts::kmalloc_aligned(PAGE_SIZE));
         if (table == nullptr) { return false; } // EFAULT
 
         dts::memset(table, 0, sizeof(PageTable));
@@ -122,7 +122,7 @@ void unmap_page(void *virt_address)
 
 bool init_paging()
 {
-    auto *default_directory = reinterpret_cast<PageDirectory *>(kmalloc_aligned(PAGE_SIZE));
+    auto *default_directory = reinterpret_cast<PageDirectory *>(dts::kmalloc_aligned(PAGE_SIZE));
     if (default_directory == nullptr) { return false; } // EFAULT
 
     dts::memset(default_directory, 0, sizeof(PageDirectory));
@@ -132,11 +132,11 @@ bool init_paging()
     }
 
     // Page table for 0-4 MB
-    auto *table = reinterpret_cast<PageTable *>(kmalloc_aligned(PAGE_SIZE));
+    auto *table = reinterpret_cast<PageTable *>(dts::kmalloc_aligned(PAGE_SIZE));
     if (table == nullptr) { return false; } // EFAULT
 
     // Page table for 3GB+ higher half kernel
-    auto *table3G = reinterpret_cast<PageTable *>(kmalloc_aligned(PAGE_SIZE));
+    auto *table3G = reinterpret_cast<PageTable *>(dts::kmalloc_aligned(PAGE_SIZE));
     if (table3G == nullptr) { return false; } // EFAULT
 
     dts::memset(table, 0, sizeof(PageTable));
