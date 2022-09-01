@@ -6,19 +6,20 @@ static DescriptorEntry descriptors[descriptor_count];
 
 void init()
 {
-    insert_null_descriptor(descriptors);
+    insert_null_descriptor();
     DescriptorTable descriptor_table{ .size    = sizeof(DescriptorEntry) * descriptor_count - 1,
                                       .address = reinterpret_cast<dts::u32>(descriptors) };
 
-    // This starts at 1 since we have alreacy inserted the null descriptor
+    // This starts at 1 since we have already inserted the null descriptor
     dts::u32 current_descriptor_index = 1;
+
+    constexpr auto descriptor_limit = 0xFFFFFFFF;
 
     // Kernel Code Segment
     insert_new_descriptor(
-      descriptors,
       current_descriptor_index++,
       0,
-      0xFFFFFFFF,
+      descriptor_limit,
       {
         .access                     = dts::to_underlying_type(AccessByteOptions::ACCESS),
         .readable_or_writeable      = dts::to_underlying_type(AccessByteOptions::READABLE_OR_WRITABLE),
@@ -30,12 +31,11 @@ void init()
       },
       BIT32_OPERAND_SIZE_4KB_GRANULARITY);
 
-    // Kenrel Data Segment
+    // Kernel Data Segment
     insert_new_descriptor(
-      descriptors,
-      current_descriptor_index++,
+      current_descriptor_index,
       0,
-      0xFFFFFFFF,
+      descriptor_limit,
       {
         .access                     = dts::to_underlying_type(AccessByteOptions::ACCESS),
         .readable_or_writeable      = dts::to_underlying_type(AccessByteOptions::READABLE_OR_WRITABLE),
@@ -49,11 +49,10 @@ void init()
 
     load_gdt(&descriptor_table);
 
-    debug("GDT loaded!");
+    debug("GDT loaded!")
 }
 
 void insert_new_descriptor(
-  DescriptorEntry *descriptors,
   const dts::u32   index,
   const dts::u32   base_address,
   const dts::u32   limit,
@@ -71,9 +70,9 @@ void insert_new_descriptor(
                                           .base_high   = static_cast<dts::u8>((base_address >> 24) & 0xffff) };
 }
 
-void insert_null_descriptor(DescriptorEntry *descriptors)
+void insert_null_descriptor()
 {
-    insert_new_descriptor(descriptors, 0, 0, 0, { 0, 0, 0, 0, 0, 0, 0 }, BIT32_OPERAND_SIZE_4KB_GRANULARITY);
+    insert_new_descriptor(0, 0, 0, { 0, 0, 0, 0, 0, 0, 0 }, BIT32_OPERAND_SIZE_4KB_GRANULARITY);
 }
 
 } // namespace Gdt

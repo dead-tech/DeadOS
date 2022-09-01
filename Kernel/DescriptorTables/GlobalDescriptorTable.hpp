@@ -99,14 +99,13 @@ static constexpr auto BIT32_OPERAND_SIZE_4KB_GRANULARITY = 0x3;
 void init();
 
 void insert_new_descriptor(
-  DescriptorEntry *descriptors,
   const dts::u32   index,
   const dts::u32   base_address,
   const dts::u32   limit,
   const AccessByte access,
   const dts::u8    flags);
 
-void insert_null_descriptor(DescriptorEntry *descriptors);
+void insert_null_descriptor();
 
 extern "C" void load_gdt(DescriptorTable *descriptor_table_ptr);
 

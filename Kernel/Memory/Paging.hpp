@@ -64,7 +64,7 @@ constexpr static inline auto page_directory_index(const virtual_address address)
 
 constexpr static inline auto page_table_index(const virtual_address address) { return address >> 12; }
 
-constexpr static inline auto get_frame(PageEntry *entry) { return ((*entry) & ~0xFFF); }
+constexpr static inline auto get_frame(const PageEntry *entry) { return ((*entry) & ~0xFFF); }
 
 constexpr static inline auto set_flag(PageEntry *entry, const dts::u32 flag) { return ((*entry) |= flag); }
 

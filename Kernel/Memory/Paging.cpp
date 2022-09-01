@@ -2,18 +2,21 @@
 
 namespace Mem {
 
-static void page_fault_handler([[maybe_unused]] Isr::CpuRegisters regs)
+[[noreturn]] static void page_fault_handler([[maybe_unused]] Isr::CpuRegisters regs)
 {
-    debug("[ERROR]: Page fault!");
+    debug("[ERROR]: Page fault!")
 
-    for (;;) { asm volatile("hlt"); }
+      for (;;)
+    {
+        asm volatile("hlt");
+    }
 }
 
-static PageDirectory *current_page_directory = 0;
+static PageDirectory *current_page_directory = nullptr;
 
 PageEntry *get_page_in_table(PageTable *page_table, const virtual_address address)
 {
-    if (page_table) {
+    if (page_table != nullptr) {
         return &page_table->entries[page_table_index(address)];
     } else {
         return nullptr;
@@ -22,7 +25,7 @@ PageEntry *get_page_in_table(PageTable *page_table, const virtual_address addres
 
 TableEntry *get_page_table_in_directory(PageDirectory *page_directory, const virtual_address address)
 {
-    if (page_directory) {
+    if (page_directory != nullptr) {
         return &page_directory->tables[page_table_index(address)];
     } else {
         return nullptr;
@@ -34,7 +37,7 @@ PageEntry *get_page(const virtual_address address)
     PageDirectory *page_directory = current_page_directory;
 
     TableEntry *entry = &page_directory->tables[page_directory_index(address)];
-    PageTable  *table = reinterpret_cast<PageTable *>(get_frame(entry));
+    auto       *table = reinterpret_cast<PageTable *>(get_frame(entry));
     PageEntry  *page  = &table->entries[page_table_index(address)];
 
     return page;
@@ -43,14 +46,14 @@ PageEntry *get_page(const virtual_address address)
 void *allocate_page(PageEntry *page)
 {
     void *block = kmalloc_aligned(PAGE_SIZE);
-    if (block) {
+    if (block != nullptr) {
         set_frame(page, reinterpret_cast<physical_address>(block));
         set_flag(page, dts::to_underlying_type(PageFlags::PRESENT));
     }
 
-    debug("[MEM]: Page allocation!");
+    debug("[MEM]: Page allocation!")
 
-    return block;
+      return block;
 }
 
 void free_page(PageEntry *page)
@@ -62,14 +65,13 @@ void free_page(PageEntry *page)
 
 bool set_paging_directory(PageDirectory *page_directory)
 {
-    if (!page_directory) { return false; }
+    if (page_directory == nullptr) { return false; }
 
     current_page_directory = page_directory;
 
     asm volatile("mov %0, %%cr3" : : "a"(current_page_directory));
 
-    debug("[MEM]: Switched page directory!");
-    return true;
+    debug("[MEM]: Switched page directory!") return true;
 }
 
 void flush_tlb_entry(const virtual_address address)
@@ -86,8 +88,8 @@ bool map_page(void *phys_address, void *virt_address)
     TableEntry *entry = &page_directory->tables[page_directory_index(reinterpret_cast<dts::u32>(virt_address))];
 
     if ((*entry & dts::to_underlying_type(PageFlags::PRESENT)) != dts::to_underlying_type(PageFlags::PRESENT)) {
-        PageTable *table = reinterpret_cast<PageTable *>(kmalloc_aligned(PAGE_SIZE));
-        if (!table) { return false; } // EFAULT
+        auto *table = reinterpret_cast<PageTable *>(kmalloc_aligned(PAGE_SIZE));
+        if (table == nullptr) { return false; } // EFAULT
 
         dts::memset(table, 0, sizeof(PageTable));
 
@@ -98,15 +100,14 @@ bool map_page(void *phys_address, void *virt_address)
         set_frame(new_entry, reinterpret_cast<physical_address>(table));
     }
 
-    PageTable *table = reinterpret_cast<PageTable *>(get_frame(entry));
+    auto *table = reinterpret_cast<PageTable *>(get_frame(entry));
 
     PageEntry *page = &table->entries[page_table_index(reinterpret_cast<dts::u32>(virt_address))];
 
     set_flag(page, dts::to_underlying_type(PageFlags::PRESENT));
     set_frame(page, reinterpret_cast<dts::u32>(phys_address));
 
-    debug("[MEM]: Mapped a page!");
-    return true;
+    debug("[MEM]: Mapped a page!") return true;
 }
 
 void unmap_page(void *virt_address)
@@ -116,27 +117,27 @@ void unmap_page(void *virt_address)
     set_frame(page, 0);
     set_flag(page, dts::to_underlying_type(PageFlags::PRESENT));
 
-    debug("[MEM]: Un-Mapped a page!");
+    debug("[MEM]: Un-Mapped a page!")
 }
 
 bool init_paging()
 {
-    PageDirectory *default_directory = reinterpret_cast<PageDirectory *>(kmalloc_aligned(PAGE_SIZE));
-    if (!default_directory) { return false; } // EFAULT
+    auto *default_directory = reinterpret_cast<PageDirectory *>(kmalloc_aligned(PAGE_SIZE));
+    if (default_directory == nullptr) { return false; } // EFAULT
 
     dts::memset(default_directory, 0, sizeof(PageDirectory));
 
-    for (dts::u32 i = 0; i < 1024; ++i) {
+    for (dts::u32 i = 0; i < 1024; ++i) { // NOLINT
         default_directory->tables[i] = 0x02; // Supervisor, read/write, not present
     }
 
     // Page table for 0-4 MB
-    PageTable *table = reinterpret_cast<PageTable *>(kmalloc_aligned(PAGE_SIZE));
-    if (!table) { return false; } // EFAULT
+    auto *table = reinterpret_cast<PageTable *>(kmalloc_aligned(PAGE_SIZE));
+    if (table == nullptr) { return false; } // EFAULT
 
     // Page table for 3GB+ higher half kernel
-    PageTable *table3G = reinterpret_cast<PageTable *>(kmalloc_aligned(PAGE_SIZE));
-    if (!table3G) { return false; } // EFAULT
+    auto *table3G = reinterpret_cast<PageTable *>(kmalloc_aligned(PAGE_SIZE));
+    if (table3G == nullptr) { return false; } // EFAULT
 
     dts::memset(table, 0, sizeof(PageTable));
     dts::memset(table3G, 0, sizeof(PageTable));
@@ -177,13 +178,12 @@ bool init_paging()
     // Set page fault handler
     Isr::register_interrupt_handler(14, &page_fault_handler);
 
-    dts::u32 cr0;
+    dts::u32 cr0 = 0;
     asm volatile("mov %%cr0, %0" : "=r"(cr0));
     cr0 |= 0x80000000;
     asm volatile("mov %0, %%cr0" ::"r"(cr0));
 
-    debug("[MEM]: Paging enabled!");
-    return true;
+    debug("[MEM]: Paging enabled!") return true;
 }
 
 } // namespace Mem

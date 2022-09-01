@@ -28,9 +28,6 @@ class SerialPort
     [[nodiscard]] static bool is_transmit_empty();
     static void               write_char(const char ch);
     static void               write_cstr(const char *str);
-
-  private:
-    SerialPort();
 };
 
 } // namespace Io

@@ -263,7 +263,7 @@ void init_gates()
     Idt::insert_new_descriptor(254, reinterpret_cast<dts::u32>(isr254), 0x08, 0x8E);
     Idt::insert_new_descriptor(255, reinterpret_cast<dts::u32>(isr255), 0x08, 0x8E);
 
-    debug("Loaded 15 IRQs and 241 ISRs");
+    debug("Loaded 15 IRQs and 241 ISRs")
 }
 
 } // namespace Isr

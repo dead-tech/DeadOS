@@ -31,7 +31,6 @@ class Cursor
     static void reset();
 
   private:
-    Cursor();
     constexpr static auto    FB_COMMAND_PORT      = 0x3D4;
     constexpr static auto    FB_DATA_PORT         = 0x3D5;
     constexpr static dts::u8 FB_HIGH_BYTE_COMMAND = 0x0E;

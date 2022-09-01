@@ -6,10 +6,10 @@ static HandlerFnPtr interrupt_handlers[256];
 
 void isr_handler([[maybe_unused]] CpuRegisters registers)
 {
-    if (interrupt_handlers[registers.interrupt_number] != 0) {
+    if (interrupt_handlers[registers.interrupt_number] != nullptr) {
         interrupt_handlers[registers.interrupt_number](registers);
     } else {
-        debug("[WARNING]: Unhandled interrupt!");
+        debug("[WARNING]: Unhandled interrupt!")
     }
 }
 

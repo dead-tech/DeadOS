@@ -5,7 +5,7 @@ namespace Keyboard {
 static void keyboard_callback([[maybe_unused]] Isr::CpuRegisters regs)
 {
     const auto status = Io::inb(KEYBOARD_STATUS_PORT);
-    if (status & 0x1) {
+    if ((status & 0x1) != 0) {
         const dts::u8 key = Io::inb(KEYBOARD_DATA_PORT);
 
         switch (key) {
@@ -31,7 +31,7 @@ static void keyboard_callback([[maybe_unused]] Isr::CpuRegisters regs)
 void init()
 {
     Irq::register_interrupt_handler(1, &keyboard_callback);
-    debug("Keyboard driver initialized!");
+    debug("Keyboard driver initialized!")
 }
 
 } // namespace Keyboard

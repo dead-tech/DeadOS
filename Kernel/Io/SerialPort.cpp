@@ -27,7 +27,7 @@ dts::i8 SerialPort::init()
 }
 
 
-bool SerialPort::serial_received() { return inb(COM1_SERIAL_PORT + 5) & 0x1; }
+bool SerialPort::serial_received() { return (inb(COM1_SERIAL_PORT + 5) & 0x1) != 0; }
 
 char SerialPort::read_serial()
 {
@@ -36,12 +36,11 @@ char SerialPort::read_serial()
     return 0;
 }
 
-bool SerialPort::is_transmit_empty() { return inb(COM1_SERIAL_PORT + 5) & 0x20; }
+bool SerialPort::is_transmit_empty() { return (inb(COM1_SERIAL_PORT + 5) & 0x20) != 0; }
 
 void SerialPort::write_char(const char ch)
 {
-    while (!is_transmit_empty())
-        ;
+    while (!is_transmit_empty()) {}
     outb(COM1_SERIAL_PORT, ch);
 }
 
