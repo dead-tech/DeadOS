@@ -34,7 +34,4 @@ void main()
     Mem::init_paging();
     Screen::Framebuffer::clear();
     Screen::Framebuffer::write_cstr(welcome_message);
-
-    dts::u32                 *ptr           = reinterpret_cast<dts::u32 *>(0xA0000000);
-    [[maybe_unused]] dts::u32 do_page_fault = *ptr;
 }
