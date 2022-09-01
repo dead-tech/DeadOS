@@ -5,7 +5,8 @@ CFLAGS = -std=c++2a -m32 -g -O0 -nostdlib -nostdinc -fconcepts -fno-builtin -fno
 			-nostartfiles -nodefaultlibs -Wall -Wextra -Werror -Wunused -I.
 
 LD = ld
-LDFLAGS = -T Kernel/link.ld -melf_i386 -Lbuild -ldts
+LDFLAGS = -T Kernel/link.ld -melf_i386
+LINK_LIBRARIES = -Lbuild -ldts
 
 ASM = nasm
 ASMFLAGS = -f elf -g -I Kernel
@@ -33,7 +34,7 @@ all: setup kernel.elf
 
 kernel.elf: $(OBJS) ${LIBRARIES}
 	@echo "Linking kernel..."
-	$(LD) $(LDFLAGS) -o $(BUILD_DIR)/kernel.elf $(OBJS)
+	$(LD) $(LDFLAGS) -o $(BUILD_DIR)/kernel.elf $(OBJS) $(LINK_LIBRARIES)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@echo "Compiling $(notdir $<)..."
