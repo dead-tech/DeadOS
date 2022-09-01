@@ -1,6 +1,5 @@
 #include "DescriptorTables/GlobalDescriptorTable.hpp"
 #include "DescriptorTables/InterruptDescriptorTable.hpp"
-#include "DescriptorTables/InterruptServiceRoutine.hpp"
 #include "Io/SerialPort.hpp"
 #include "Keyboard/Keyboard.hpp"
 #include "Memory/Paging.hpp"
