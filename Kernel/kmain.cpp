@@ -1,6 +1,7 @@
 #include "DescriptorTables/GlobalDescriptorTable.hpp"
 #include "DescriptorTables/InterruptDescriptorTable.hpp"
 #include "Io/SerialPort.hpp"
+#include "Kernel/Syscalls/Syscalls.hpp"
 #include "Keyboard/Keyboard.hpp"
 #include "Memory/Paging.hpp"
 #include "ProgrammableIntervalTimer/ProgrammableIntervalTimer.hpp"
@@ -39,6 +40,7 @@ void main()
 
     asm volatile("sti");
     Mem::init_paging();
+    Syscalls::init();
     Screen::Framebuffer::clear();
     Screen::Framebuffer::write_cstr(welcome_message);
 }
