@@ -41,6 +41,7 @@ void main()
     asm volatile("sti");
     Mem::init_paging();
     Syscalls::init();
+    Heap::init(4096);
     Screen::Framebuffer::clear();
     Screen::Framebuffer::write_cstr(welcome_message);
 }
