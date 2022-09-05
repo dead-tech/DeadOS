@@ -15,6 +15,14 @@ constexpr static auto welcome_message =
   "                                       \n"
   " My Operating System written in C++20.";
 
+void kassert(
+  [[maybe_unused]] const char *expr,
+  [[maybe_unused]] const char *message,
+  [[maybe_unused]] char const *file,
+  [[maybe_unused]] unsigned    line)
+{
+    debug(message);
+}
 
 void main()
 {

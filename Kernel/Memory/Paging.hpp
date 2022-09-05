@@ -1,5 +1,6 @@
 #pragma once
 
+#include <dts/Assert.hpp>
 #include <dts/Memory.hpp>
 #include <dts/Types.hpp>
 #include <dts/TypeTraits.hpp>

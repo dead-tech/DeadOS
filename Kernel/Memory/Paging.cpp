@@ -4,12 +4,22 @@ namespace Mem {
 
 [[noreturn]] static void page_fault_handler([[maybe_unused]] Isr::CpuRegisters regs)
 {
-    debug("[ERROR]: Page fault!")
+    debug("[ERROR]: Page fault!");
 
-      for (;;)
-    {
-        asm volatile("hlt");
-    }
+    [[maybe_unused]] dts::u32 faulting_address = 0;
+    asm volatile("mov %%cr2, %0" : "=r"(faulting_address));
+
+    const bool present    = (regs.error_code & 0x1) == 0U;
+    const bool read_write = (regs.error_code & 0x2) != 0U;
+    const bool user       = (regs.error_code & 0x4) != 0U;
+    const bool reserved   = (regs.error_code & 0x8) != 0U;
+
+    if (present) { debug("\tpresent,"); }
+    if (read_write) { debug("\tread_write,"); }
+    if (user) { debug("\tuser,"); }
+    if (reserved) { debug("\treserved,"); }
+
+    panic();
 }
 
 static PageDirectory *current_page_directory = nullptr;
