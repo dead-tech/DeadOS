@@ -14,4 +14,7 @@ void *kmalloc_aligned(const dts::u32 size);
 void *kmalloc_physical_address(const dts::u32 size, dts::u32 *physical_address);
 void *kmalloc_aligned_physical_address(const dts::u32 size, dts::u32 *physicalAddress);
 
+void *malloc(const dts::u32 size);
+void  free(void *ptr);
+
 }; // namespace dts

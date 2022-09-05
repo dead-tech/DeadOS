@@ -43,4 +43,17 @@ void *kmalloc_aligned_physical_address(const dts::u32 size, dts::u32 *physical_a
     }
     return kmalloc_physical_address(size, physical_address);
 }
+
+void *malloc(const dts::u32 size)
+{
+    void *ptr = nullptr;
+
+    asm volatile("int $0x80" : : "a"(0), "b"(size));
+    asm volatile("mov %%eax, %0" : "=r"(ptr));
+
+    return ptr;
+}
+
+void free(void *ptr) { asm volatile("int $0x80" : : "a"(1), "b"(ptr)); }
+
 } // namespace dts

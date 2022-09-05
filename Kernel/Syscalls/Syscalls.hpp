@@ -5,6 +5,7 @@
 
 #include "../DescriptorTables/InterruptServiceRoutine.hpp"
 #include "../Io/SerialPort.hpp"
+#include "../Memory/Heap.hpp"
 
 namespace Syscalls {
 

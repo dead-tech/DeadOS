@@ -2,9 +2,26 @@
 
 namespace Syscalls {
 
-static void sys_malloc([[maybe_unused]] const Isr::CpuRegisters regs) { debug("Malloc syscall"); }
+static void sys_malloc([[maybe_unused]] const Isr::CpuRegisters regs)
+{
+    debug("Malloc syscall");
 
-static void sys_free([[maybe_unused]] const Isr::CpuRegisters regs) { debug("Free syscall"); }
+    const auto bytes = regs.ebx;
+
+    if (Heap::list_head == nullptr) { Heap::init(bytes); }
+
+    void *ptr = Heap::malloc(bytes);
+
+    Heap::merge_free_blocks();
+
+    asm volatile("mov %0, %%eax" : : "r"(ptr));
+}
+
+static void sys_free([[maybe_unused]] const Isr::CpuRegisters regs)
+{
+    debug("Free syscall");
+    Heap::free(reinterpret_cast<void *>(regs.ebx));
+}
 
 static SyscallHandlerFnPtr syscall_handlers[] = { sys_malloc, sys_free };
 
