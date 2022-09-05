@@ -48,7 +48,7 @@ $(BUILD_DIR)/%_asm.o: $(SRC_DIR)/%.s
 
 libdts.a: $(DTS_OBJS)
 	@echo "Linking libdts.a static library..."
-	$(AR) $(ARFLAGS) $(BUILD_DIR)/$@ $<
+	$(AR) $(ARFLAGS) $(BUILD_DIR)/$@ $(DTS_OBJS)
 
 $(BUILD_DIR)/%.o: $(DTS_DIR)/%.cpp
 	@echo "Compiling $(notdir $<)..."
