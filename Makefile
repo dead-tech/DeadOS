@@ -2,7 +2,7 @@ OS_NAME = DeadOS
 
 CC = gcc
 CFLAGS = -std=c++2a -m32 -g -O0 -nostdlib -nostdinc -fconcepts -fno-builtin -fno-stack-protector -ffreestanding \
-			-nostartfiles -nodefaultlibs -Wall -Wextra -Werror -Wunused -I.
+			-fno-exceptions -fno-rtti -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -Wunused -I.
 
 LD = ld
 LDFLAGS = -T Kernel/link.ld -melf_i386
