@@ -8,6 +8,7 @@ extern "C" dts::u32 kernel_end;
 
 
 void *memset(void *ptr, const int constant, const dts::u32 num);
+void *memcpy(void *dst, const void *src, const dts::u32 num);
 
 void *kmalloc(const dts::u32 size);
 void *kmalloc_aligned(const dts::u32 size);

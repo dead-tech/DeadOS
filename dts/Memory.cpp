@@ -6,10 +6,19 @@ static dts::u32 free_memory = reinterpret_cast<dts::u32>(&kernel_end);
 
 void *memset(void *address, const int constant, const dts::u32 num)
 {
-    dts::u8 *ptr = reinterpret_cast<dts::u8 *>(address);
+    auto *ptr = reinterpret_cast<dts::u8 *>(address);
     for (dts::u32 i = 0; i < num; ++i) { ptr[i] = static_cast<dts::u8>(constant); }
 
     return ptr;
+}
+
+void *memcpy(void *dst, const void *src, const dts::u32 num)
+{
+    auto       *dest_byte_ptr = reinterpret_cast<dts::u8 *>(dst);
+    const auto *src_byte_ptr  = reinterpret_cast<const dts::u8 *>(src);
+    for (dts::u32 i = 0; i < num; ++i) { dest_byte_ptr[i] = src_byte_ptr[i]; }
+
+    return dest_byte_ptr;
 }
 
 void *kmalloc(const dts::u32 size)
