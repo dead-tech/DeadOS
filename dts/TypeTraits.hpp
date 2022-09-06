@@ -17,7 +17,7 @@ struct IsEnum : public IntegralConstant<bool, __is_enum(T)>
 };
 
 template<typename T>
-using IsEnumV = IsEnum<T>::value;
+using IsEnumV = typename IsEnum<T>::value;
 
 template<typename T>
 concept IsEnumC = IsEnum<T>::value;
@@ -35,12 +35,21 @@ struct UnderlyingType
 };
 
 template<typename T>
-using UnderlyingTypeT = UnderlyingType<T>::type;
+using UnderlyingTypeT = typename UnderlyingType<T>::type;
 
 template<IsEnumC Enum>
 constexpr static auto to_underlying_type(Enum e)
 {
     return static_cast<UnderlyingTypeT<Enum>>(e);
 }
+
+template<typename T>
+struct RemoveReference
+{
+    using type = T;
+};
+
+template<typename T>
+using RemoveReferenceT = typename RemoveReference<T>::type;
 
 } // namespace dts
