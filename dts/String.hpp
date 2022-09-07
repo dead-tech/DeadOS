@@ -14,12 +14,13 @@ bool strcmp(const char *lhs, const char *rhs);
 
 char *itoa(u64 integer, u8 base = 10);
 
+// FIXME: Add capacity to reduce malloc system calls
 class String
 {
   public:
     constexpr static dts::u32 npos = -1;
 
-    explicit String(const char *cstr);
+    String(const char *cstr); // NOLINT
     ~String();
     String(const String &other);
     String(String &&other) noexcept;
@@ -52,22 +53,24 @@ class String
     [[nodiscard]] dts::u32 size() const;
     [[nodiscard]] bool     empty() const;
 
-    void                   clear();
-    void                   push_back(const char ch);
-    void                   pop_back();
-    [[nodiscard]] String  &operator+=(const char *other);
-    [[nodiscard]] String  &operator+=(const String &other);
-    [[nodiscard]] bool     operator==(const String &rhs) const;
-    [[nodiscard]] bool     operator!=(const String &rhs) const;
-    [[nodiscard]] bool     starts_with(const char other);
-    [[nodiscard]] bool     starts_with(const char *other);
-    [[nodiscard]] bool     starts_with(const String &other);
-    [[nodiscard]] bool     ends_with(const char other);
-    [[nodiscard]] bool     ends_with(const char *other);
-    [[nodiscard]] bool     ends_with(const String &other);
-    [[nodiscard]] bool     contains(const char other);
-    [[nodiscard]] bool     contains(const char *other);
-    [[nodiscard]] bool     contains(const String &other);
+    void               clear();
+    void               push_back(const char ch);
+    void               pop_back();
+    String            &operator+=(const char *other);
+    String            &operator+=(const String &other);
+    [[nodiscard]] bool operator==(const String &rhs) const;
+    [[nodiscard]] bool operator!=(const String &rhs) const;
+    [[nodiscard]] bool starts_with(const char other);
+    [[nodiscard]] bool starts_with(const char *other);
+    [[nodiscard]] bool starts_with(const String &other);
+    [[nodiscard]] bool ends_with(const char other);
+    [[nodiscard]] bool ends_with(const char *other);
+    [[nodiscard]] bool ends_with(const String &other);
+    // FIXME: I'm absolutely broken
+    [[nodiscard]] bool contains(const char other);
+    [[nodiscard]] bool contains(const char *other);
+    [[nodiscard]] bool contains(const String &other);
+    // FIXME: Kinda works
     [[nodiscard]] String   substr(const dts::u32 pos, const dts::u32 len) const;
     [[nodiscard]] dts::u32 find_first_of(const char other) const;
     [[nodiscard]] dts::u32 find_first_of(const char *other) const;
@@ -87,7 +90,9 @@ String String::from(const T number)
     char     buffer[32]  = { 0 };
     dts::u32 buffer_size = 0;
 
-    for (dts::u32 i = number; i > 0; i /= 10) { buffer[buffer_size++] = "0123456789ABCDEF"[i % 10]; }
+    for (dts::u32 i = number; i > 0; i /= 10) {
+        buffer[buffer_size++] = "0123456789ABCDEF"[i % 10];
+    }
 
     return reverse(String(buffer)); // NOLINT
 }
