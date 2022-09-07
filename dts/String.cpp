@@ -148,10 +148,7 @@ String &String::operator+=(const char *other)
     memcpy(new_data, m_data, m_size);
     free(m_data);
 
-    for (dts::u32 i = 0; i < other_len; ++i) {
-        new_data[i] = other[i];
-        ++m_size;
-    }
+    for (dts::u32 i = 0; i < other_len; ++i, ++m_size) { new_data[m_size] = other[i]; }
 
 
     m_data = new_data;
@@ -166,6 +163,7 @@ String &String::operator+=(const dts::String &other)
 
     for (dts::u32 i = 0; i < other.size(); ++i, ++m_size) { new_data[m_size] = other[i]; }
 
+    m_data = new_data;
     return *this;
 }
 
