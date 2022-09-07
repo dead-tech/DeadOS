@@ -139,7 +139,7 @@ void String::push_back(const char ch)
     ++m_size;
 }
 
-void String::pop_back() { --m_size; }
+void String::pop_back() { m_data[--m_size] = '\0'; }
 
 String &String::operator+=(const char *other)
 {
