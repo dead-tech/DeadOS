@@ -263,38 +263,44 @@ bool String::contains(const char *other)
 {
     const auto other_len = strlen(other);
 
-    for (dts::u32 i = 0; i < other_len; ++i) {
-        if (m_data[i] == other[i]) {
-            const auto *lhs = m_data + i;
-            const auto *rhs = other + i;
-            while (*lhs == *rhs) {
-                ++lhs;
-                ++rhs;
-
-                if (*rhs != *lhs) { return false; }
+    for (dts::u32 i = 0; i < m_size; ++i) {
+        dts::u32 j = 0;
+        if (m_data[i] == other[j]) {
+            dts::u32 initial_value = i;
+            while (m_data[i] == other[j]) {
+                ++i;
+                ++j;
+            }
+            if (j == other_len) {
+                return true;
+            } else {
+                i = initial_value;
             }
         }
     }
 
-    return true;
+    return false;
 }
 
 bool String::contains(const String &other)
 {
-    for (dts::u32 i = 0; i < other.size(); ++i) {
-        if (m_data[i] == other[i]) {
-            const auto *lhs = m_data + i;
-            const auto *rhs = other.c_str() + i;
-            while (*lhs == *rhs) {
-                ++lhs;
-                ++rhs;
-
-                if (*rhs != *lhs) { return false; }
+    for (dts::u32 i = 0; i < m_size; ++i) {
+        dts::u32 j = 0;
+        if (m_data[i] == other[j]) {
+            dts::u32 initial_value = i;
+            while (m_data[i] == other[j]) {
+                ++i;
+                ++j;
+            }
+            if (j == other.size()) {
+                return true;
+            } else {
+                i = initial_value;
             }
         }
     }
 
-    return true;
+    return false;
 }
 
 String String::substr(const dts::u32 pos, const dts::u32 len) const

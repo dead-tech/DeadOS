@@ -53,20 +53,19 @@ class String
     [[nodiscard]] dts::u32 size() const;
     [[nodiscard]] bool     empty() const;
 
-    void               clear();
-    void               push_back(const char ch);
-    void               pop_back();
-    String            &operator+=(const char *other);
-    String            &operator+=(const String &other);
-    [[nodiscard]] bool operator==(const String &rhs) const;
-    [[nodiscard]] bool operator!=(const String &rhs) const;
-    [[nodiscard]] bool starts_with(const char other);
-    [[nodiscard]] bool starts_with(const char *other);
-    [[nodiscard]] bool starts_with(const String &other);
-    [[nodiscard]] bool ends_with(const char other);
-    [[nodiscard]] bool ends_with(const char *other);
-    [[nodiscard]] bool ends_with(const String &other);
-    // FIXME: I'm absolutely broken
+    void                   clear();
+    void                   push_back(const char ch);
+    void                   pop_back();
+    String                &operator+=(const char *other);
+    String                &operator+=(const String &other);
+    [[nodiscard]] bool     operator==(const String &rhs) const;
+    [[nodiscard]] bool     operator!=(const String &rhs) const;
+    [[nodiscard]] bool     starts_with(const char other);
+    [[nodiscard]] bool     starts_with(const char *other);
+    [[nodiscard]] bool     starts_with(const String &other);
+    [[nodiscard]] bool     ends_with(const char other);
+    [[nodiscard]] bool     ends_with(const char *other);
+    [[nodiscard]] bool     ends_with(const String &other);
     [[nodiscard]] bool     contains(const char other);
     [[nodiscard]] bool     contains(const char *other);
     [[nodiscard]] bool     contains(const String &other);
