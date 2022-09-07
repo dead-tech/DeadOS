@@ -34,20 +34,18 @@ bool strcmp(const char *lhs, const char *rhs)
 
 String::String(const char *cstr)
   : m_size{ strlen(cstr) },
-    m_data{ reinterpret_cast<char *>(malloc((m_size + 1) * sizeof(char))) }
+    m_data{ reinterpret_cast<char *>(malloc(m_size * sizeof(char))) }
 {
     memcpy(m_data, cstr, m_size);
-    *(m_data + m_size) = '\0';
 }
 
 String::~String() { free(m_data); }
 
 String::String(const dts::String &other)
   : m_size{ other.size() },
-    m_data{ reinterpret_cast<char *>(malloc((m_size + 1) * sizeof(char))) }
+    m_data{ reinterpret_cast<char *>(malloc(m_size * sizeof(char))) }
 {
     memcpy(m_data, other.c_str(), other.size());
-    *(m_data + m_size) = '\0';
 }
 
 String::String(dts::String &&other) noexcept
@@ -58,10 +56,9 @@ String::String(dts::String &&other) noexcept
 String &String::operator=(const String &other)
 {
     if (&other != this) {
-        m_size = other.m_size;
-        m_data = reinterpret_cast<char *>(malloc((m_size - 1) * sizeof(char)));
+        m_size = other.size();
+        m_data = reinterpret_cast<char *>(malloc(m_size * sizeof(char)));
         memcpy(m_data, other.c_str(), other.size());
-        *(m_data + m_size) = '\0';
     }
     return *this;
 }
@@ -138,13 +135,11 @@ void String::clear() { memset(m_data, 0, m_size); }
 
 void String::push_back(const char ch)
 {
-    auto *new_data = reinterpret_cast<char *>(malloc((m_size + 2) * sizeof(char)));
-    memcpy(new_data, m_data, m_size - 1); // size - 1 not to copy the null termination character
+    auto *new_data = reinterpret_cast<char *>(malloc((m_size + 1) * sizeof(char)));
+    memcpy(new_data, m_data, m_size);
     free(m_data);
 
-    auto *new_char_spot = new_data + m_size + 1;
-    *new_char_spot      = ch;
-    *(++new_char_spot)  = '\0';
+    new_data[m_size] = ch;
 
     m_data = new_data;
     ++m_size;
@@ -155,8 +150,8 @@ void String::pop_back() { --m_size; }
 String &String::operator+=(const char *other)
 {
     const auto other_len = strlen(other);
-    auto      *new_data  = reinterpret_cast<char *>(malloc((m_size + other_len + 1) * sizeof(char)));
-    memcpy(new_data, m_data, m_size - 1);
+    auto      *new_data  = reinterpret_cast<char *>(malloc((m_size + other_len) * sizeof(char)));
+    memcpy(new_data, m_data, m_size);
     free(m_data);
 
     for (dts::u32 i = 0; i < other_len; ++i) {
@@ -164,7 +159,6 @@ String &String::operator+=(const char *other)
         ++m_size;
     }
 
-    new_data[m_size + 1] = '\0';
 
     m_data = new_data;
     return *this;
@@ -172,16 +166,11 @@ String &String::operator+=(const char *other)
 
 String &String::operator+=(const dts::String &other)
 {
-    auto *new_data = reinterpret_cast<char *>(malloc(m_size + other.size() + 1 * sizeof(char)));
-    memcpy(new_data, m_data, m_size - 1);
+    auto *new_data = reinterpret_cast<char *>(malloc((m_size + other.size()) * sizeof(char)));
+    memcpy(new_data, m_data, m_size);
     free(m_data);
 
-    for (dts::u32 i = 0; i < other.size(); ++i) {
-        new_data[i] = other[i];
-        ++m_size;
-    }
-
-    new_data[m_size + 1] = '\0';
+    for (dts::u32 i = 0; i < other.size(); ++i, ++m_size) { new_data[m_size] = other[i]; }
 
     return *this;
 }
@@ -290,9 +279,8 @@ bool String::contains(const String &other)
 
 String String::substr(const dts::u32 pos, const dts::u32 len) const
 {
-    auto *new_str = reinterpret_cast<char *>(malloc(len + 1 * sizeof(char)));
+    auto *new_str = reinterpret_cast<char *>(malloc(len * sizeof(char)));
     memcpy(new_str, m_data + pos, len);
-    *(new_str + len + 1) = '\0';
 
     return String(new_str);
 }
