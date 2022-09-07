@@ -39,10 +39,90 @@ struct IntegralConstant
     constexpr value_type operator()() const noexcept { return value; }
 };
 
+using TrueType  = IntegralConstant<bool, true>;
+using FalseType = IntegralConstant<bool, false>;
+
 template<typename T>
 struct IsEnum : public IntegralConstant<bool, __is_enum(T)>
 {
 };
+
+template<typename T>
+struct IsIntegralHelper : public FalseType
+{
+};
+
+template<>
+struct IsIntegralHelper<bool> : public TrueType
+{
+};
+
+template<>
+struct IsIntegralHelper<char> : public TrueType
+{
+};
+
+template<>
+struct IsIntegralHelper<signed char> : public TrueType
+{
+};
+
+template<>
+struct IsIntegralHelper<unsigned char> : public TrueType
+{
+};
+
+template<>
+struct IsIntegralHelper<short> : public TrueType
+{
+};
+
+template<>
+struct IsIntegralHelper<unsigned short> : public TrueType
+{
+};
+
+template<>
+struct IsIntegralHelper<int> : public TrueType
+{
+};
+
+
+template<>
+struct IsIntegralHelper<unsigned int> : public TrueType
+{
+};
+
+template<>
+struct IsIntegralHelper<long> : public TrueType
+{
+};
+
+template<>
+struct IsIntegralHelper<unsigned long> : public TrueType
+{
+};
+
+template<>
+struct IsIntegralHelper<long long> : public TrueType
+{
+};
+
+template<>
+struct IsIntegralHelper<unsigned long long> : public TrueType
+{
+};
+
+template<typename T>
+struct IsIntegral : public IsIntegralHelper<RemoveCVT<T>>
+{
+};
+
+template<typename T>
+using IsIntegralV = typename IsIntegral<T>::value;
+
+template<typename T>
+concept IsIntegralC = IsIntegral<T>::value;
 
 template<typename T>
 using IsEnumV = typename IsEnum<T>::value;
