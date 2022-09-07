@@ -81,19 +81,28 @@ String String::reverse(const dts::String &str)
     return ret;
 }
 
-const char &String::operator[](const dts::u32 index) const { return m_data[index]; }
+const char &String::operator[](const dts::u32 index) const
+{
+    return m_data[index];
+}
 
 char &String::operator[](const dts::u32 index) { return m_data[index]; }
 
 const char &String::at(const dts::u32 index) const
 {
-    assert(index < m_size - 1, "[ERROR] String::at(dts::u32 index): Index was greater than string size.");
+    assert(
+      index < m_size - 1,
+      "[ERROR] String::at(dts::u32 index): Index was greater than string size."
+    );
     return m_data[index];
 }
 
 char &String::at(const dts::u32 index)
 {
-    assert(index < m_size - 1, "[ERROR] String::at(dts::u32 index): Index was greater than string size.");
+    assert(
+      index < m_size - 1,
+      "[ERROR] String::at(dts::u32 index): Index was greater than string size."
+    );
     return m_data[index];
 }
 
@@ -129,7 +138,8 @@ void String::clear()
 
 void String::push_back(const char ch)
 {
-    auto *new_data = reinterpret_cast<char *>(malloc((m_size + 1) * sizeof(char)));
+    auto *new_data =
+      reinterpret_cast<char *>(malloc((m_size + 1) * sizeof(char)));
     memcpy(new_data, m_data, m_size);
     free(m_data);
 
@@ -144,11 +154,14 @@ void String::pop_back() { m_data[--m_size] = '\0'; }
 String &String::operator+=(const char *other)
 {
     const auto other_len = strlen(other);
-    auto      *new_data  = reinterpret_cast<char *>(malloc((m_size + other_len) * sizeof(char)));
+    auto      *new_data =
+      reinterpret_cast<char *>(malloc((m_size + other_len) * sizeof(char)));
     memcpy(new_data, m_data, m_size);
     free(m_data);
 
-    for (dts::u32 i = 0; i < other_len; ++i, ++m_size) { new_data[m_size] = other[i]; }
+    for (dts::u32 i = 0; i < other_len; ++i, ++m_size) {
+        new_data[m_size] = other[i];
+    }
 
 
     m_data = new_data;
@@ -157,18 +170,27 @@ String &String::operator+=(const char *other)
 
 String &String::operator+=(const dts::String &other)
 {
-    auto *new_data = reinterpret_cast<char *>(malloc((m_size + other.size()) * sizeof(char)));
+    auto *new_data =
+      reinterpret_cast<char *>(malloc((m_size + other.size()) * sizeof(char)));
     memcpy(new_data, m_data, m_size);
     free(m_data);
 
-    for (dts::u32 i = 0; i < other.size(); ++i, ++m_size) { new_data[m_size] = other[i]; }
+    for (dts::u32 i = 0; i < other.size(); ++i, ++m_size) {
+        new_data[m_size] = other[i];
+    }
 
     m_data = new_data;
     return *this;
 }
 
-bool String::operator==(const dts::String &rhs) const { return strcmp(c_str(), rhs.c_str()); }
-bool String::operator!=(const dts::String &rhs) const { return !strcmp(c_str(), rhs.c_str()); }
+bool String::operator==(const dts::String &rhs) const
+{
+    return strcmp(c_str(), rhs.c_str());
+}
+bool String::operator!=(const dts::String &rhs) const
+{
+    return !strcmp(c_str(), rhs.c_str());
+}
 
 bool String::starts_with(const char other) { return front() == other; }
 
@@ -204,8 +226,8 @@ bool String::ends_with(const char *other)
 
     if (m_size < other_len) { return false; }
 
-    for (dts::u32 i = other_len - 1; i > 0; --i) {
-        if (m_data[i] != other[i]) { return false; }
+    for (dts::u32 i = 0; i < other_len; ++i) {
+        if (m_data[m_size - i] != other[other_len - i]) { return false; }
     }
 
     return true;
@@ -215,8 +237,8 @@ bool String::ends_with(const dts::String &other)
 {
     if (m_size < other.size()) { return false; }
 
-    for (dts::u32 i = other.size() - 1; i > 0; --i) {
-        if (m_data[i] == other[i]) { return false; }
+    for (dts::u32 i = 0; i > other.size(); ++i) {
+        if (m_data[m_size - i] == other[other.size() - i]) { return false; }
     }
 
     return true;
