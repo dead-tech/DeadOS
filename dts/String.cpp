@@ -70,16 +70,6 @@ String &String::operator=(String &&other) noexcept
     return *this;
 }
 
-template<typename T>
-String String::from(const T number)
-{
-    char     buffer[32]  = { 0 };
-    dts::u32 buffer_size = 0;
-
-    for (dts::u32 i = number; i > 0; i /= 10) { buffer[buffer_size++] = "0123456789ABCDEF"[i % 10]; }
-
-    return reverse(String(buffer)); // NOLINT
-}
 
 String String::reverse(const dts::String &str)
 {
