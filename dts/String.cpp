@@ -187,6 +187,7 @@ bool String::operator==(const dts::String &rhs) const
 {
     return strcmp(c_str(), rhs.c_str());
 }
+
 bool String::operator!=(const dts::String &rhs) const
 {
     return !strcmp(c_str(), rhs.c_str());
@@ -296,7 +297,7 @@ String String::substr(const dts::u32 pos, const dts::u32 len) const
     auto *new_str = reinterpret_cast<char *>(malloc(len * sizeof(char)));
     memcpy(new_str, m_data + pos, len);
 
-    return String(new_str);
+    return { new_str };
 }
 
 dts::u32 String::find_first_of(const char other) const

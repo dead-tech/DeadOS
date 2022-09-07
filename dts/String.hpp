@@ -67,10 +67,9 @@ class String
     [[nodiscard]] bool ends_with(const char *other);
     [[nodiscard]] bool ends_with(const String &other);
     // FIXME: I'm absolutely broken
-    [[nodiscard]] bool contains(const char other);
-    [[nodiscard]] bool contains(const char *other);
-    [[nodiscard]] bool contains(const String &other);
-    // FIXME: Kinda works
+    [[nodiscard]] bool     contains(const char other);
+    [[nodiscard]] bool     contains(const char *other);
+    [[nodiscard]] bool     contains(const String &other);
     [[nodiscard]] String   substr(const dts::u32 pos, const dts::u32 len) const;
     [[nodiscard]] dts::u32 find_first_of(const char other) const;
     [[nodiscard]] dts::u32 find_first_of(const char *other) const;
