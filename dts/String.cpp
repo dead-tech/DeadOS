@@ -121,7 +121,11 @@ dts::u32 String::size() const { return m_size; }
 
 bool String::empty() const { return !(m_size > 0); }
 
-void String::clear() { memset(m_data, 0, m_size); }
+void String::clear()
+{
+    m_size = 0;
+    memset(m_data, 0, m_size);
+}
 
 void String::push_back(const char ch)
 {
