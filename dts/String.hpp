@@ -27,9 +27,8 @@ class String
     String &operator=(const String &other);
     String &operator=(String &&other) noexcept;
 
-    // TODO: Make this a Integral concept
     // FIXME: Very basic implementation
-    template<typename T>
+    template<dts::IsIntegralC T>
     [[nodiscard]] static String from(const T number);
 
     [[nodiscard]] static String reverse(const String &str);
@@ -82,7 +81,7 @@ class String
     char    *m_data = nullptr;
 };
 
-template<typename T>
+template<IsIntegralC T>
 String String::from(const T number)
 {
     char     buffer[32]  = { 0 };
