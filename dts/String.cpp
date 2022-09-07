@@ -119,7 +119,7 @@ char *String::end() const { return m_data + m_size; }
 
 dts::u32 String::size() const { return m_size; }
 
-bool String::empty() const { return m_size > 0; }
+bool String::empty() const { return !(m_size > 0); }
 
 void String::clear() { memset(m_data, 0, m_size); }
 
