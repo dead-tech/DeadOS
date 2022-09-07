@@ -1,6 +1,34 @@
 #pragma once
 
 namespace dts {
+
+template<typename T>
+struct RemoveCV
+{
+    using type = T;
+};
+
+template<typename T>
+struct RemoveCV<const T>
+{
+    using type = T;
+};
+
+template<typename T>
+struct RemoveCV<volatile T>
+{
+    using type = T;
+};
+
+template<typename T>
+struct RemoveCV<const volatile T>
+{
+    using type = T;
+};
+
+template<typename T>
+using RemoveCVT = typename RemoveCV<T>::type;
+
 template<typename T, T v>
 struct IntegralConstant
 {
