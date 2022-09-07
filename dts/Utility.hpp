@@ -5,7 +5,7 @@
 namespace dts {
 
 template<typename T>
-RemoveReferenceT<T> &&move(T &&arg)
+[[nodiscard]] constexpr RemoveReferenceT<T> &&move(T &&arg)
 {
     return static_cast<RemoveReferenceT<T> &&>(arg);
 }
