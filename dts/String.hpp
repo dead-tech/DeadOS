@@ -30,7 +30,8 @@ class String
     // FIXME: Very basic implementation
     template<dts::IsIntegralC T>
     [[nodiscard]] static String from(const T number);
-
+    [[nodiscard]] static String
+      with_capacity(const char *cstr, const dts::u32 capacity);
     [[nodiscard]] static String reverse(const String &str);
 
     [[nodiscard]] const char &operator[](const dts::u32 index) const;
@@ -50,6 +51,7 @@ class String
     [[nodiscard]] char       *end() const;
 
     [[nodiscard]] dts::u32 size() const;
+    [[nodiscard]] dts::u32 capacity() const;
     [[nodiscard]] bool     empty() const;
 
     void                   clear();
@@ -77,8 +79,14 @@ class String
     [[nodiscard]] dts::u32 find_last_of(const String &other) const;
 
   private:
-    dts::u32 m_size = 0;
-    char    *m_data = nullptr;
+    String(const char *cstr, const dts::u32 capacity);
+
+    void grow();
+    void grow_if_necessary(const dts::u32 new_size);
+
+    dts::u32 m_size     = 0;
+    dts::u32 m_capacity = 0;
+    char    *m_data     = nullptr;
 };
 
 template<IsIntegralC T>

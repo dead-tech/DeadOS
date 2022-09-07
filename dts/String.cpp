@@ -33,31 +33,39 @@ bool strcmp(const char *lhs, const char *rhs)
 }
 
 String::String(const char *cstr)
-  : m_size{ strlen(cstr) },
-    m_data{ reinterpret_cast<char *>(malloc(m_size * sizeof(char))) }
 {
+    const auto len = strlen(cstr);
+    m_size         = len;
+    m_capacity     = len;
+    m_data = reinterpret_cast<char *>(malloc(m_capacity * sizeof(char)));
+
     memcpy(m_data, cstr, m_size);
 }
 
 String::~String() { free(m_data); }
 
 String::String(const dts::String &other)
-  : m_size{ other.size() },
-    m_data{ reinterpret_cast<char *>(malloc(m_size * sizeof(char))) }
 {
+    const auto len = other.size();
+    m_size         = len;
+    m_capacity     = len;
+    m_data = reinterpret_cast<char *>(malloc(m_capacity * sizeof(char)));
+
     memcpy(m_data, other.c_str(), other.size());
 }
 
 String::String(dts::String &&other) noexcept
   : m_size{ move(other.size()) },
+    m_capacity{ move(other.capacity()) },
     m_data{ move(other.data()) }
 {}
 
 String &String::operator=(const String &other)
 {
     if (&other != this) {
-        m_size = other.size();
-        m_data = reinterpret_cast<char *>(malloc(m_size * sizeof(char)));
+        m_size     = other.size();
+        m_capacity = other.capacity();
+        m_data = reinterpret_cast<char *>(malloc(m_capacity * sizeof(char)));
         memcpy(m_data, other.c_str(), other.size());
     }
     return *this;
@@ -65,9 +73,15 @@ String &String::operator=(const String &other)
 
 String &String::operator=(String &&other) noexcept
 {
-    m_size = move(other.size());
-    m_data = move(other.data());
+    m_size     = move(other.size());
+    m_capacity = move(other.capacity());
+    m_data     = move(other.data());
     return *this;
+}
+
+String String::with_capacity(const char *cstr, const dts::u32 capacity)
+{
+    return { cstr, capacity };
 }
 
 
@@ -133,6 +147,8 @@ char *String::end() const { return m_data + m_size; }
 
 dts::u32 String::size() const { return m_size; }
 
+dts::u32 String::capacity() const { return m_capacity; }
+
 bool String::empty() const { return !(m_size > 0); }
 
 void String::clear()
@@ -143,15 +159,8 @@ void String::clear()
 
 void String::push_back(const char ch)
 {
-    auto *new_data =
-      reinterpret_cast<char *>(malloc((m_size + 1) * sizeof(char)));
-    memcpy(new_data, m_data, m_size);
-    free(m_data);
-
-    new_data[m_size] = ch;
-
-    m_data = new_data;
-    ++m_size;
+    grow_if_necessary(1);
+    m_data[m_size++] = ch;
 }
 
 void String::pop_back() { m_data[--m_size] = '\0'; }
@@ -159,32 +168,18 @@ void String::pop_back() { m_data[--m_size] = '\0'; }
 String &String::operator+=(const char *other)
 {
     const auto other_len = strlen(other);
-    auto      *new_data =
-      reinterpret_cast<char *>(malloc((m_size + other_len) * sizeof(char)));
-    memcpy(new_data, m_data, m_size);
-    free(m_data);
+    grow_if_necessary(other_len);
 
-    for (dts::u32 i = 0; i < other_len; ++i, ++m_size) {
-        new_data[m_size] = other[i];
-    }
-
-
-    m_data = new_data;
+    for (dts::u32 i = 0; i < other_len; ++i) { m_data[m_size++] = other[i]; }
     return *this;
 }
 
 String &String::operator+=(const dts::String &other)
 {
-    auto *new_data =
-      reinterpret_cast<char *>(malloc((m_size + other.size()) * sizeof(char)));
-    memcpy(new_data, m_data, m_size);
-    free(m_data);
+    const auto other_len = other.size();
+    grow_if_necessary(other_len);
 
-    for (dts::u32 i = 0; i < other.size(); ++i, ++m_size) {
-        new_data[m_size] = other[i];
-    }
-
-    m_data = new_data;
+    for (dts::u32 i = 0; i < other_len; ++i) { m_data[m_size++] = other[i]; }
     return *this;
 }
 
@@ -407,6 +402,33 @@ dts::u32 String::find_last_of(const String &other) const
     }
 
     return idx;
+}
+
+String::String(const char *cstr, const dts::u32 capacity)
+  : m_size{ strlen(cstr) },
+    m_capacity{ capacity },
+    m_data{ reinterpret_cast<char *>(malloc(m_capacity * sizeof(char))) }
+{
+    memcpy(m_data, cstr, m_size);
+}
+
+void String::grow()
+{
+    const auto new_capacity = m_capacity * 2;
+
+    auto *new_data =
+      reinterpret_cast<char *>(malloc(new_capacity * sizeof(char)));
+
+    memcpy(new_data, m_data, m_size);
+    free(m_data);
+
+    m_capacity = new_capacity;
+    m_data     = new_data;
+}
+
+void String::grow_if_necessary(const dts::u32 new_size)
+{
+    if (m_size + new_size > m_capacity) { grow(); }
 }
 
 } // namespace dts
