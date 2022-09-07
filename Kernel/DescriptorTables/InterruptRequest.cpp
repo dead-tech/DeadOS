@@ -4,7 +4,7 @@ namespace Irq {
 
 static HandlerFnPtr irq_handlers[16];
 
-void irq_handler([[maybe_unused]] Isr::CpuRegisters registers)
+void irq_handler(Isr::CpuRegisters registers)
 {
     Pic::send_end_of_interrupt(registers.interrupt_number, 0x20);
 
@@ -17,6 +17,9 @@ void irq_handler([[maybe_unused]] Isr::CpuRegisters registers)
     }
 }
 
-void register_interrupt_handler(dts::u8 index, HandlerFnPtr handler) { irq_handlers[index] = handler; }
+void register_interrupt_handler(dts::u8 index, HandlerFnPtr handler)
+{
+    irq_handlers[index] = handler;
+}
 
 } // namespace Irq

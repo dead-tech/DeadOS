@@ -4,7 +4,7 @@ namespace Isr {
 
 static HandlerFnPtr interrupt_handlers[256];
 
-void isr_handler([[maybe_unused]] CpuRegisters registers)
+void isr_handler(CpuRegisters registers)
 {
     if (interrupt_handlers[registers.interrupt_number] != nullptr) {
         interrupt_handlers[registers.interrupt_number](registers);
@@ -13,6 +13,9 @@ void isr_handler([[maybe_unused]] CpuRegisters registers)
     }
 }
 
-void register_interrupt_handler(dts::u8 index, HandlerFnPtr handler) { interrupt_handlers[index] = handler; }
+void register_interrupt_handler(dts::u8 index, HandlerFnPtr handler)
+{
+    interrupt_handlers[index] = handler;
+}
 
 } // namespace Isr
