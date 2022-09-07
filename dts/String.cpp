@@ -106,7 +106,12 @@ char &String::at(const dts::u32 index)
     return m_data[index];
 }
 
-const char *String::c_str() const { return m_data; }
+const char *String::c_str() const
+{
+    auto *ret   = m_data;
+    ret[m_size] = '\0';
+    return ret;
+}
 
 char *String::data() const { return m_data; }
 
