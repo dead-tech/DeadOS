@@ -9,9 +9,6 @@
 
 namespace Syscalls {
 
-using SyscallHandlerFnPtr = void (*)(Isr::CpuRegisters regs);
-
-void init();
-void common_syscall_handler(const Isr::CpuRegisters regs);
+using SyscallHandlerFnPtr = void (*)(dts::u32, dts::u32, dts::u32, dts::u32);
 
 } // namespace Syscalls

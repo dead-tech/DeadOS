@@ -20,7 +20,8 @@ void kassert(
   [[maybe_unused]] const char *expr,
   [[maybe_unused]] const char *message,
   [[maybe_unused]] char const *file,
-  [[maybe_unused]] unsigned    line)
+  [[maybe_unused]] unsigned    line
+)
 {
     debug(message);
 }
@@ -40,7 +41,6 @@ void main()
 
     asm volatile("sti");
     Mem::init_paging();
-    Syscalls::init();
     Heap::init(4096);
     Screen::Framebuffer::clear();
     Screen::Framebuffer::write_cstr(welcome_message);

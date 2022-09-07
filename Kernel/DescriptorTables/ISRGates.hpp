@@ -139,7 +139,7 @@ extern "C" void isr124();
 extern "C" void isr125();
 extern "C" void isr126();
 extern "C" void isr127();
-extern "C" void isr128();
+extern "C" void syscall_common_handler();
 extern "C" void isr129();
 extern "C" void isr130();
 extern "C" void isr131();
