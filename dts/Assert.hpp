@@ -3,7 +3,12 @@
 #define STRINGIFY_HELPER(x) #x
 #define STRINGIFY2(x) STRINGIFY_HELPER(x)
 
-void kassert(const char *expr, const char *message, char const *file, unsigned line);
+void kassert(
+  const char *expr,
+  const char *message,
+  char const *file,
+  unsigned    line
+);
 
 #define panic()                           \
     do {                                  \
@@ -12,7 +17,7 @@ void kassert(const char *expr, const char *message, char const *file, unsigned l
 
 #define assert(expr, message)                             \
     do {                                                  \
-        if (!static_cast<bool>(expr)) [[unlikely]] {      \
+        if (!static_cast<bool>(expr)) {                   \
             kassert(#expr, #message, __FILE__, __LINE__); \
             panic();                                      \
         }                                                 \
