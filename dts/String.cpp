@@ -153,8 +153,8 @@ bool String::empty() const { return !(m_size > 0); }
 
 void String::clear()
 {
-    m_size = 0;
     memset(m_data, 0, m_size);
+    m_size = 0;
 }
 
 void String::push_back(const char ch)
