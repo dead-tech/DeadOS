@@ -5,6 +5,8 @@
 #include "Types.hpp"
 #include "Utility.hpp"
 
+#include <initializer_list>
+
 namespace dts {
 
 template<typename T>
@@ -12,7 +14,8 @@ class Vector
 {
   public:
     Vector() = default;
-    // TODO: Add initializer list constructor
+    Vector(const T *begin, const T *end);
+    Vector(std::initializer_list<T> initializer_list);
     Vector(const Vector &other);
     Vector(Vector &&other) noexcept;
     Vector &operator=(const Vector &other);
@@ -65,11 +68,25 @@ class Vector
 };
 
 template<typename T>
+Vector<T>::Vector(const T *begin, const T *end)
+  : m_size{ static_cast<dts::u32>(end - begin) },
+    m_capacity{ m_size },
+    m_data{ reinterpret_cast<T *>(malloc(m_capacity * sizeof(T))) }
+{
+    memcpy(m_data, begin, m_size);
+}
+
+template<typename T>
+Vector<T>::Vector(std::initializer_list<T> initializer_list)
+  : Vector<T>(initializer_list.begin(), initializer_list.end())
+{}
+
+template<typename T>
 Vector<T>::Vector(const Vector<T> &other)
   : m_size{ other.size() },
-    m_capacity{ other.capacity() }
+    m_capacity{ other.capacity() },
+    m_data{ reinterpret_cast<T *>(malloc(m_capacity * sizeof(T))) }
 {
-    m_data = reinterpret_cast<T *>(malloc(m_capacity * sizeof(T)));
     memcpy(m_data, other.data(), m_size);
 }
 
@@ -302,8 +319,7 @@ void Vector<T>::grow_if_necessary(const dts::u32 new_size)
 
 template<typename T>
 Vector<T>::Vector(const dts::u32 capacity)
-  : m_size{ 0 },
-    m_capacity{ capacity },
+  : m_capacity{ capacity },
     m_data{ reinterpret_cast<T *>(malloc(m_capacity * sizeof(T))) }
 {
     memset(m_data, 0, m_size);
