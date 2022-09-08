@@ -160,4 +160,20 @@ struct RemoveReference
 template<typename T>
 using RemoveReferenceT = typename RemoveReference<T>::type;
 
+template<typename T>
+struct IsLValueReference : public FalseType
+{
+};
+
+template<typename T>
+struct IsLValueReference<T &> : public TrueType
+{
+};
+
+template<typename T>
+using IsLValueReferenceV = typename IsLValueReference<T>::value;
+
+template<typename T>
+using IsLValueReferenceT = typename IsLValueReference<T>::type;
+
 } // namespace dts
