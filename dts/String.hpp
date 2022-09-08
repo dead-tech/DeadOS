@@ -19,6 +19,7 @@ class String
   public:
     constexpr static dts::u32 npos = -1;
 
+    String() = default;
     String(const char *cstr); // NOLINT
     ~String();
     String(const String &other);
