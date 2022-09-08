@@ -16,7 +16,7 @@ jobs:
       - uses: ilammy/setup-nasm@v1
       - uses: actions/checkout@v2
       - name: Get Latest G++/GCC version
-        run: sudo apt install gcc-11 g++-11
+        run: sudo apt install gcc-11 g++-11 gcc-multilib g++-multilib
       - name: Set CXX=g++-11
         run: echo "CXX=g++-11" >> $GITHUB_ENV
       - name: Set CC=gcc-11
