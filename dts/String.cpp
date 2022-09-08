@@ -105,7 +105,7 @@ char &String::operator[](const dts::u32 index) { return m_data[index]; }
 const char &String::at(const dts::u32 index) const
 {
     assert(
-      index < m_size - 1,
+      index <= m_size - 1,
       "[ERROR] String::at(dts::u32 index): Index was greater than string size."
     );
     return m_data[index];
@@ -114,7 +114,7 @@ const char &String::at(const dts::u32 index) const
 char &String::at(const dts::u32 index)
 {
     assert(
-      index < m_size - 1,
+      index <= m_size - 1,
       "[ERROR] String::at(dts::u32 index): Index was greater than string size."
     );
     return m_data[index];
