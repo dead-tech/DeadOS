@@ -49,6 +49,7 @@ class Vector
     [[nodiscard]] dts::u32 size() const;
     [[nodiscard]] dts::u32 capacity() const;
     [[nodiscard]] bool     empty() const;
+    void                   shrink_to_fit();
 
     // TODO: Add insert, emplace, erase, swap
     void clear();
@@ -263,6 +264,19 @@ template<typename T>
 bool Vector<T>::empty() const
 {
     return !(m_size > 0);
+}
+
+template<typename T>
+void Vector<T>::shrink_to_fit()
+{
+    if (m_capacity / 2 > m_size) {
+        m_capacity     = m_size;
+        auto *new_data = reinterpret_cast<T *>(malloc(m_capacity * sizeof(T)));
+        memcpy(new_data, m_data, m_size);
+        free(m_data);
+
+        m_data = new_data;
+    }
 }
 
 template<typename T>
