@@ -56,8 +56,9 @@ class Vector
     template<typename... Args>
     void               emplace_back(Args &&...params);
     void               pop_back();
-    [[nodiscard]] bool operator==(const Vector &rhs);
-    [[nodiscard]] bool operator!=(const Vector &rhs);
+    [[nodiscard]] bool operator==(const Vector &rhs) const;
+    [[nodiscard]] bool operator!=(const Vector &rhs) const;
+    [[nodiscard]] bool contains(const T &elem) const;
 
   private:
     explicit Vector(const dts::u32 capacity);
@@ -307,7 +308,7 @@ void Vector<T>::pop_back()
 }
 
 template<typename T>
-bool Vector<T>::operator==(const Vector<T> &rhs)
+bool Vector<T>::operator==(const Vector<T> &rhs) const
 {
     if (m_size != rhs.size()) { return false; }
 
@@ -319,7 +320,7 @@ bool Vector<T>::operator==(const Vector<T> &rhs)
 }
 
 template<typename T>
-bool Vector<T>::operator!=(const Vector<T> &rhs)
+bool Vector<T>::operator!=(const Vector<T> &rhs) const
 {
     if (m_size != rhs.size()) { return true; }
 
