@@ -35,6 +35,9 @@ class String
       with_capacity(const char *cstr, const dts::u32 capacity);
     [[nodiscard]] static String reverse(const String &str);
 
+    template<typename... Args>
+    [[nodiscard]] static String format(String fmt, Args &&...args);
+
     [[nodiscard]] const char &operator[](const dts::u32 index) const;
     [[nodiscard]] char       &operator[](const dts::u32 index);
     [[nodiscard]] const char &at(const dts::u32 index) const;
@@ -102,6 +105,38 @@ String String::from(const T number)
     }
 
     return reverse(String(buffer)); // NOLINT
+}
+
+// TODO: Use stringview for fmt
+//       Implement binary and hex formatters
+//       Assert counting the number of placeholders matches the number of provided args
+//       Format integer
+template<typename... Args>
+String String::format(String fmt, Args &&...args)
+{
+    assert(
+      dts::count(fmt.begin(), fmt.end(), '{') == sizeof...(args),
+      "[ERROR] dts::String::format(): Mismatch of opening '{' and number of "
+      "provided arguments."
+    );
+
+    assert(
+      dts::count(fmt.begin(), fmt.end(), '}') == sizeof...(args),
+      "[ERROR] dts::String::format(): Mismatch of opening '{' and number of "
+      "provided arguments."
+    );
+
+    String result = String::with_capacity("", 15);
+
+    const auto format_helper = [&](const auto &value) {
+        result += fmt.substr(0, fmt.find_first_of('{'));
+        result += value;
+        fmt = fmt.substr(fmt.find_first_of('}') + 1, fmt.size());
+    };
+
+    (format_helper(forward<Args>(args)), ...);
+    result += fmt;
+    return result;
 }
 
 } // namespace dts
