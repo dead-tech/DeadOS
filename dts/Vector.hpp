@@ -332,6 +332,16 @@ bool Vector<T>::operator!=(const Vector<T> &rhs) const
 }
 
 template<typename T>
+bool Vector<T>::contains(const T &elem) const
+{
+    for (const auto &item : *this) {
+        if (item == elem) { return true; }
+    }
+
+    return false;
+}
+
+template<typename T>
 void Vector<T>::grow()
 {
     const auto new_capacity = m_capacity * 2;
