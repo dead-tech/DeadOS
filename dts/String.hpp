@@ -17,6 +17,10 @@ char *itoa(u64 integer, u8 base = 10);
 class String
 {
   public:
+    using Iterator      = char *;
+    using ConstIterator = const char *;
+
+
     constexpr static dts::u32 npos = -1;
 
     String() = default;
