@@ -151,6 +151,19 @@ dts::u32 String::capacity() const { return m_capacity; }
 
 bool String::empty() const { return !(m_size > 0); }
 
+void String::shrink_to_fit()
+{
+    if (m_capacity / 2 > m_size) {
+        m_capacity = m_size;
+        auto *new_data =
+          reinterpret_cast<char *>(malloc(m_capacity * sizeof(char)));
+        memcpy(new_data, m_data, m_size);
+        free(m_data);
+
+        m_data = new_data;
+    }
+}
+
 void String::clear()
 {
     memset(m_data, 0, m_size);

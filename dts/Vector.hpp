@@ -45,7 +45,6 @@ class Vector
     [[nodiscard]] T       *end() const;
 
 
-    // TODO: Add shrink_to_fit
     [[nodiscard]] dts::u32 size() const;
     [[nodiscard]] dts::u32 capacity() const;
     [[nodiscard]] bool     empty() const;
