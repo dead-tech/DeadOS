@@ -176,4 +176,20 @@ using IsLValueReferenceV = typename IsLValueReference<T>::value;
 template<typename T>
 using IsLValueReferenceT = typename IsLValueReference<T>::type;
 
+template<typename T, typename U>
+struct IsSame : public FalseType
+{
+};
+
+template<typename T>
+struct IsSame<T, T> : public TrueType
+{
+};
+
+template<typename T, typename U>
+inline constexpr bool IsSameV = false;
+
+template<typename T>
+inline constexpr bool IsSameV<T, T> = true;
+
 } // namespace dts
