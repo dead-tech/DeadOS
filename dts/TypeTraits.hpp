@@ -192,4 +192,7 @@ inline constexpr bool IsSameV = false;
 template<typename T>
 inline constexpr bool IsSameV<T, T> = true;
 
+template<typename T, typename U>
+concept SameAs = IsSameV<T, U> &&IsSameV<U, T>;
+
 } // namespace dts

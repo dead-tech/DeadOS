@@ -4,9 +4,6 @@
 
 namespace dts {
 
-template<typename T, typename U>
-concept SameAs = IsSameV<T, U> &&IsSameV<U, T>;
-
 template<typename Container>
 concept IterableContainerC = requires(const Container &container)
 {
