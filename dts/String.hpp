@@ -119,13 +119,13 @@ template<typename... Args>
 String String::format(String fmt, Args &&...args)
 {
     assert(
-      dts::count(fmt.begin(), fmt.end(), '{') == sizeof...(args),
+      dts::count(fmt, '{') == sizeof...(args),
       "[ERROR] dts::String::format(): Mismatch of opening '{' and number of "
       "provided arguments."
     );
 
     assert(
-      dts::count(fmt.begin(), fmt.end(), '}') == sizeof...(args),
+      dts::count(fmt, '}') == sizeof...(args),
       "[ERROR] dts::String::format(): Mismatch of opening '{' and number of "
       "provided arguments."
     );
