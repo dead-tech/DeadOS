@@ -53,6 +53,7 @@ class String
     [[nodiscard]] dts::u32 size() const;
     [[nodiscard]] dts::u32 capacity() const;
     [[nodiscard]] bool     empty() const;
+    void                   shrink_to_fit();
 
     void                   clear();
     void                   push_back(const char ch);
