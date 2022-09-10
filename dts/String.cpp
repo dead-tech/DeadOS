@@ -42,6 +42,14 @@ String::String(const char *cstr)
     memcpy(m_data, cstr, m_size);
 }
 
+String::String(const char *begin, const char *end)
+  : m_size{ static_cast<dts::u32>(end - begin) },
+    m_capacity{ m_size },
+    m_data{ reinterpret_cast<char *>(malloc(m_capacity * sizeof(char))) }
+{
+    memcpy(m_data, begin, m_size);
+}
+
 String::~String() { free(m_data); }
 
 String::String(const dts::String &other)

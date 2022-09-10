@@ -21,6 +21,7 @@ class String
 
     String() = default;
     String(const char *cstr); // NOLINT
+    String(const char *begin, const char *end);
     ~String();
     String(const String &other);
     String(String &&other) noexcept;
