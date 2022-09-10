@@ -22,8 +22,11 @@ class Vector
     Vector &operator=(Vector &&other) noexcept;
     ~Vector();
 
-    // TODO: Have a version with an initializer list for this;
     [[nodiscard]] static Vector<T> with_capacity(const dts::u32 capacity);
+    [[nodiscard]] static Vector<T> with_capacity(
+      std::initializer_list<T> initializer_list,
+      const dts::u32           capacity
+    );
 
     [[nodiscard]] const T &operator[](const dts::u32 index) const;
     [[nodiscard]] T       &operator[](const dts::u32 index);
@@ -58,6 +61,7 @@ class Vector
 
   private:
     explicit Vector(const dts::u32 capacity);
+    Vector(const T *begin, const T *end, const dts::u32 capacity);
 
     void grow();
     void grow_if_necessary(const dts::u32 size);
@@ -66,6 +70,13 @@ class Vector
     dts::u32 m_capacity = 0;
     T       *m_data     = nullptr;
 };
+
+
+template<typename T>
+Vector(const T *begin, const T *end) -> Vector<T>;
+
+template<typename T>
+Vector(std::initializer_list<T> initializer_list) -> Vector<T>;
 
 template<typename T>
 Vector<T>::Vector(const T *begin, const T *end)
@@ -130,6 +141,15 @@ template<typename T>
 Vector<T> Vector<T>::with_capacity(const dts::u32 capacity)
 {
     return Vector(capacity);
+}
+
+template<typename T>
+Vector<T> Vector<T>::with_capacity(
+  std::initializer_list<T> initializer_list,
+  const dts::u32           capacity
+)
+{
+    return Vector(initializer_list.begin(), initializer_list.end(), capacity);
 }
 
 
@@ -325,4 +345,12 @@ Vector<T>::Vector(const dts::u32 capacity)
     memset(m_data, 0, m_size);
 }
 
+template<typename T>
+Vector<T>::Vector(const T *begin, const T *end, const dts::u32 capacity)
+  : m_size{ static_cast<dts::u32>(begin - end) },
+    m_capacity{ capacity },
+    m_data{ reinterpret_cast<T *>(malloc(m_capacity * sizeof(T))) }
+{
+    memcpy(m_data, begin, m_size);
+}
 } // namespace dts
