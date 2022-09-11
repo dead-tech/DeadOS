@@ -33,12 +33,10 @@ bool strcmp(const char *lhs, const char *rhs)
 }
 
 String::String(const char *cstr)
+  : m_size{ strlen(cstr) },
+    m_capacity{ m_size },
+    m_data{ reinterpret_cast<char *>(malloc(m_capacity * sizeof(char))) }
 {
-    const auto len = strlen(cstr);
-    m_size         = len;
-    m_capacity     = len;
-    m_data = reinterpret_cast<char *>(malloc(m_capacity * sizeof(char)));
-
     memcpy(m_data, cstr, m_size);
 }
 
@@ -53,13 +51,11 @@ String::String(const char *begin, const char *end)
 String::~String() { free(m_data); }
 
 String::String(const dts::String &other)
+  : m_size{ other.size() },
+    m_capacity{ m_size },
+    m_data{ reinterpret_cast<char *>(malloc(m_capacity * sizeof(char))) }
 {
-    const auto len = other.size();
-    m_size         = len;
-    m_capacity     = len;
-    m_data = reinterpret_cast<char *>(malloc(m_capacity * sizeof(char)));
-
-    memcpy(m_data, other.c_str(), other.size());
+    memcpy(m_data, other.data(), other.size());
 }
 
 String::String(dts::String &&other) noexcept
