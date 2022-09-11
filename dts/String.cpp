@@ -428,27 +428,23 @@ dts::u32 String::find_last_of(const String &other) const
 String::String(const dts::u32 capacity)
   : m_capacity{ capacity },
     m_data{ reinterpret_cast<char *>(malloc(m_capacity * sizeof(char))) }
-{
-    memcpy(m_data, cstr, m_size);
-}
+{}
 
-void String::grow()
+void String::grow([[maybe_unused]] const dts::u32 new_size)
 {
-    const auto new_capacity = m_capacity * 2;
+    m_capacity += new_size + 1;
 
     auto *new_data =
-      reinterpret_cast<char *>(malloc(new_capacity * sizeof(char)));
-
+      reinterpret_cast<char *>(malloc(m_capacity * sizeof(char)));
     memcpy(new_data, m_data, m_size);
     free(m_data);
 
-    m_capacity = new_capacity;
-    m_data     = new_data;
+    m_data = new_data;
 }
 
 void String::grow_if_necessary(const dts::u32 new_size)
 {
-    if (m_size + new_size > m_capacity) { grow(); }
+    if (m_capacity <= m_size + new_size) { grow(new_size); }
 }
 
 } // namespace dts
