@@ -35,8 +35,7 @@ class String
     // FIXME: Very basic implementation
     template<dts::IsIntegralC T>
     [[nodiscard]] static String from(const T number);
-    [[nodiscard]] static String
-      with_capacity(const char *cstr, const dts::u32 capacity);
+    [[nodiscard]] static String with_capacity(const dts::u32 capacity);
     [[nodiscard]] static String reverse(const String &str);
 
     template<typename... Args>
@@ -88,9 +87,9 @@ class String
     [[nodiscard]] dts::u32 find_last_of(const String &other) const;
 
   private:
-    String(const char *cstr, const dts::u32 capacity);
+    explicit String(const dts::u32 capacity);
 
-    void grow();
+    void grow(const dts::u32 new_size);
     void grow_if_necessary(const dts::u32 new_size);
 
     dts::u32 m_size     = 0;

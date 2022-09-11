@@ -87,9 +87,9 @@ String &String::operator=(String &&other) noexcept
     return *this;
 }
 
-String String::with_capacity(const char *cstr, const dts::u32 capacity)
+String String::with_capacity(const dts::u32 capacity)
 {
-    return { cstr, capacity };
+    return String{ capacity };
 }
 
 
@@ -425,9 +425,8 @@ dts::u32 String::find_last_of(const String &other) const
     return idx;
 }
 
-String::String(const char *cstr, const dts::u32 capacity)
-  : m_size{ strlen(cstr) },
-    m_capacity{ capacity },
+String::String(const dts::u32 capacity)
+  : m_capacity{ capacity },
     m_data{ reinterpret_cast<char *>(malloc(m_capacity * sizeof(char))) }
 {
     memcpy(m_data, cstr, m_size);
