@@ -17,13 +17,19 @@ constexpr static auto welcome_message =
   " My Operating System written in C++20.";
 
 void kassert(
-  [[maybe_unused]] const char *expr,
-  [[maybe_unused]] const char *message,
-  [[maybe_unused]] char const *file,
-  [[maybe_unused]] unsigned    line
+  const char               *expr,
+  const char               *message,
+  char const               *file,
+  [[maybe_unused]] unsigned line
 )
 {
-    debug(message);
+    auto formatted_message = dts::String::format(
+      "[ASSERTION FAILED] -> {}: Expression: `{}`, Error Message: `{}`",
+      file,
+      expr,
+      message
+    );
+    debug(formatted_message.c_str());
 }
 
 void main()
@@ -41,7 +47,7 @@ void main()
 
     asm volatile("sti");
     Mem::init_paging();
-    Heap::init(4096);
+    Heap::init(4096 * 32);
     Screen::Framebuffer::clear();
     Screen::Framebuffer::write_cstr(welcome_message);
 }
