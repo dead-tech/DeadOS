@@ -317,10 +317,9 @@ bool String::contains(const String &other)
 
 String String::substr(const dts::u32 pos, const dts::u32 len) const
 {
-    auto *new_str = reinterpret_cast<char *>(malloc(len * sizeof(char)));
-    memcpy(new_str, m_data + pos, len);
+    if (len == 0) { return ""; }
 
-    return { m_data + pos, m_data + len };
+    return { m_data + pos, m_data + pos + len };
 }
 
 dts::u32 String::find_first_of(const char other) const
