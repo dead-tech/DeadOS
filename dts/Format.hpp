@@ -7,20 +7,19 @@ namespace dts {
 // TODO: Use stringview for fmt
 //       Make it work with lvalues too
 //       Implement binary and hex formatters
-//       Assert counting the number of placeholders matches the number of provided args
 //       Format integer
 template<typename... Args>
 String format(String &&fmt, Args &&...args)
 {
     assert(
       dts::count(fmt, '{') == sizeof...(args),
-      "[ERROR] dts::String::format(): Mismatch of opening '{' and number of "
+      "[ERROR] dts::format(): Mismatch of opening '{' and number of "
       "provided arguments."
     );
 
     assert(
       dts::count(fmt, '}') == sizeof...(args),
-      "[ERROR] dts::String::format(): Mismatch of opening '{' and number of "
+      "[ERROR] dts::format(): Mismatch of opening '{' and number of "
       "provided arguments."
     );
 
