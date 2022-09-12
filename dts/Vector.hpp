@@ -62,7 +62,6 @@ class Vector
 
   private:
     explicit Vector(const dts::u32 capacity);
-    Vector(const T *begin, const T *end, const dts::u32 capacity);
 
     void grow(const dts::u32 new_size);
     void grow_if_necessary(const dts::u32 new_size);
@@ -358,10 +357,6 @@ Vector<T>::Vector(const dts::u32 capacity)
 }
 
 template<typename T>
-Vector<T>::Vector(const T *begin, const T *end, const dts::u32 capacity)
-  : m_size{ static_cast<dts::u32>(begin - end) },
-    m_capacity{ capacity },
-    m_data{ reinterpret_cast<T *>(malloc(m_capacity * sizeof(T))) }
 {
     memcpy(m_data, begin, m_size);
 }
