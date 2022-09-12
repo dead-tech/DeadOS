@@ -116,6 +116,12 @@ struct Formatter<const char *>
     static String format(const char *cstr) { return cstr; }
 };
 
+template<dts::u32 Size>
+struct Formatter<char[Size]>
+{
+    static String format(const char *cstr) { return cstr; }
+};
+
 template<>
 struct Formatter<String>
 {
