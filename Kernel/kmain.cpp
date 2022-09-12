@@ -1,5 +1,6 @@
 #include "DescriptorTables/GlobalDescriptorTable.hpp"
 #include "DescriptorTables/InterruptDescriptorTable.hpp"
+#include "dts/Format.hpp"
 #include "Io/SerialPort.hpp"
 #include "Kernel/Syscalls/Syscalls.hpp"
 #include "Keyboard/Keyboard.hpp"
@@ -23,7 +24,7 @@ void kassert(
   [[maybe_unused]] unsigned line
 )
 {
-    auto formatted_message = dts::String::format(
+    auto formatted_message = dts::format(
       "[ASSERTION FAILED] -> {}: Expression: `{}`, Error Message: `{}`",
       file,
       expr,

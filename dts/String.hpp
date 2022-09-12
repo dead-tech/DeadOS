@@ -38,9 +38,6 @@ class String
     [[nodiscard]] static String with_capacity(const dts::u32 capacity);
     [[nodiscard]] static String reverse(const String &str);
 
-    template<typename... Args>
-    [[nodiscard]] static String format(String &&fmt, Args &&...args);
-
     [[nodiscard]] const char &operator[](const dts::u32 index) const;
     [[nodiscard]] char       &operator[](const dts::u32 index);
     [[nodiscard]] const char &at(const dts::u32 index) const;
@@ -108,42 +105,6 @@ String String::from(const T number)
     }
 
     return reverse(String(buffer)); // NOLINT
-}
-
-// TODO: Use stringview for fmt
-//       Make it work with lvalues too
-//       Implement binary and hex formatters
-//       Assert counting the number of placeholders matches the number of provided args
-//       Format integer
-template<typename... Args>
-String String::format(String &&fmt, Args &&...args)
-{
-    // FIXME: Those are not working
-    assert(
-      dts::count(fmt, '{') == sizeof...(args),
-      "[ERROR] dts::String::format(): Mismatch of opening '{' and number of "
-      "provided arguments."
-    );
-
-    assert(
-      dts::count(fmt, '}') == sizeof...(args),
-      "[ERROR] dts::String::format(): Mismatch of opening '{' and number of "
-      "provided arguments."
-    );
-
-    String result;
-
-    const auto format_helper = [&](const auto &value) {
-        result += fmt.substr(0, fmt.find_first_of('{'));
-        result += value;
-        const auto rest =
-          fmt.substr(fmt.find_first_of('}') + 1, fmt.size() - 1);
-        fmt = rest;
-    };
-
-    (format_helper(forward<Args>(args)), ...);
-    result += fmt;
-    return result;
 }
 
 } // namespace dts
