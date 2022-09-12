@@ -27,10 +27,6 @@ class Vector
     ~Vector();
 
     [[nodiscard]] static Vector<T> with_capacity(const dts::u32 capacity);
-    [[nodiscard]] static Vector<T> with_capacity(
-      std::initializer_list<T> initializer_list,
-      const dts::u32           capacity
-    );
 
     [[nodiscard]] const T &operator[](const dts::u32 index) const;
     [[nodiscard]] T       &operator[](const dts::u32 index);
@@ -147,16 +143,6 @@ Vector<T> Vector<T>::with_capacity(const dts::u32 capacity)
 {
     return Vector(capacity);
 }
-
-template<typename T>
-Vector<T> Vector<T>::with_capacity(
-  std::initializer_list<T> initializer_list,
-  const dts::u32           capacity
-)
-{
-    return Vector(initializer_list.begin(), initializer_list.end(), capacity);
-}
-
 
 template<typename T>
 const T &Vector<T>::operator[](const dts::u32 index) const
