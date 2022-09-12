@@ -59,10 +59,18 @@ String::String(const dts::String &other)
 }
 
 String::String(dts::String &&other) noexcept
-  : m_size{ move(other.size()) },
-    m_capacity{ move(other.capacity()) },
-    m_data{ move(other.data()) }
-{}
+{
+    if (&other == this) {
+        m_size     = other.size();
+        m_capacity = other.capacity();
+        m_data = reinterpret_cast<char *>(malloc(m_capacity * sizeof(char)));
+        memcpy(m_data, other.data(), other.size());
+    } else {
+        m_size     = move(other.size());
+        m_capacity = move(other.capacity());
+        m_data     = move(other.data());
+    }
+}
 
 String &String::operator=(const String &other)
 {
@@ -75,6 +83,7 @@ String &String::operator=(const String &other)
     return *this;
 }
 
+// FIXME: Properly implement the move-assignment operator
 String &String::operator=(String &&other) noexcept
 {
     m_size     = move(other.size());
