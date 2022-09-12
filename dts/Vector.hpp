@@ -97,7 +97,7 @@ Vector<T>::Vector(const Vector<T> &other)
     m_capacity{ other.capacity() },
     m_data{ reinterpret_cast<T *>(malloc(m_capacity * sizeof(T))) }
 {
-    memcpy(m_data, other.data(), m_size);
+    memcpy(m_data, other.data(), m_size * sizeof(T));
 }
 
 template<typename T>
@@ -114,7 +114,7 @@ Vector<T> &Vector<T>::operator=(const Vector<T> &other)
         m_size     = other.size();
         m_capacity = other.capacity();
         m_data     = reinterpret_cast<T *>(malloc(m_capacity * sizeof(T)));
-        memcpy(m_data, other.data(), m_size);
+        memcpy(m_data, other.data(), m_size * sizeof(T));
     }
 
     return *this;
@@ -260,7 +260,7 @@ void Vector<T>::shrink_to_fit()
     if (m_capacity / 2 > m_size) {
         m_capacity     = m_size;
         auto *new_data = reinterpret_cast<T *>(malloc(m_capacity * sizeof(T)));
-        memcpy(new_data, m_data, m_size);
+        memcpy(new_data, m_data, m_size * sizeof(T));
         free(m_data);
 
         m_data = new_data;
@@ -335,7 +335,7 @@ void Vector<T>::grow(const dts::u32 new_size)
     m_capacity += new_size + 1;
 
     auto *new_data = reinterpret_cast<T *>(malloc(m_capacity * sizeof(T)));
-    memcpy(new_data, m_data, m_size);
+    memcpy(new_data, m_data, m_size * sizeof(T));
     free(m_data);
 
     m_data = new_data;
