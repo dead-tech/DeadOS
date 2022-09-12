@@ -158,6 +158,18 @@ struct RemoveReference
 };
 
 template<typename T>
+struct RemoveReference<T &>
+{
+    using type = T;
+};
+
+template<typename T>
+struct RemoveReference<T &&>
+{
+    using type = T;
+};
+
+template<typename T>
 using RemoveReferenceT = typename RemoveReference<T>::type;
 
 template<typename T>
