@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Assert.hpp"
+#include "Format.hpp"
 #include "Memory.hpp"
 #include "Types.hpp"
 #include "Utility.hpp"
@@ -356,7 +357,18 @@ Vector<T>::Vector(const dts::u32 capacity)
 }
 
 template<typename T>
+struct Formatter<Vector<T>>
 {
-    memcpy(m_data, begin, m_size);
-}
+    static String format(const Vector<T> &vec)
+    {
+        String result = "dts::Vector{ ";
+        for (const auto &item : vec) {
+            result += Formatter<DecayT<decltype(item)>>::format(item);
+            result += ", ";
+        }
+        result.push_back('}');
+        return result;
+    } // namespace dts
+};
+
 } // namespace dts
