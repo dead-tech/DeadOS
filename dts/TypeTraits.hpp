@@ -207,4 +207,13 @@ inline constexpr bool IsSameV<T, T> = true;
 template<typename T, typename U>
 concept SameAs = IsSameV<T, U> &&IsSameV<U, T>;
 
+template<typename T>
+struct Decay
+{
+    using type = RemoveCVT<RemoveReferenceT<T>>;
+};
+
+template<typename T>
+using DecayT = typename Decay<T>::type;
+
 } // namespace dts
