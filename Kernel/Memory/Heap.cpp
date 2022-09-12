@@ -32,7 +32,7 @@ void init(const dts::u32 size)
          i < malloc_page_count;
          ++i, virt += Mem::PAGE_SIZE) {
         Mem::map_page(
-          dts::kmalloc_aligned(i * Mem::PAGE_SIZE),
+          Mem::kmalloc_aligned(i * Mem::PAGE_SIZE),
           reinterpret_cast<void *>(heap_start_virtual_address)
         );
 

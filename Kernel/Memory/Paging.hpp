@@ -1,12 +1,12 @@
 #pragma once
 
 #include <dts/Assert.hpp>
-#include <dts/Memory.hpp>
 #include <dts/Types.hpp>
 #include <dts/TypeTraits.hpp>
 
 #include "../DescriptorTables/InterruptServiceRoutine.hpp"
 #include "../Io/SerialPort.hpp"
+#include "Kmalloc.hpp"
 
 namespace Mem {
 
@@ -60,23 +60,43 @@ struct PageDirectory
     TableEntry tables[TABLES_PER_DIRECTORY];
 };
 
-constexpr static inline auto page_directory_index(const virtual_address address) { return address >> 22; }
+constexpr static inline auto page_directory_index(const virtual_address address)
+{
+    return address >> 22;
+}
 
-constexpr static inline auto page_table_index(const virtual_address address) { return address >> 12; }
+constexpr static inline auto page_table_index(const virtual_address address)
+{
+    return address >> 12;
+}
 
-constexpr static inline auto get_frame(const PageEntry *entry) { return ((*entry) & ~0xFFF); }
+constexpr static inline auto get_frame(const PageEntry *entry)
+{
+    return ((*entry) & ~0xFFF);
+}
 
-constexpr static inline auto set_flag(PageEntry *entry, const dts::u32 flag) { return ((*entry) |= flag); }
+constexpr static inline auto set_flag(PageEntry *entry, const dts::u32 flag)
+{
+    return ((*entry) |= flag);
+}
 
-constexpr static inline auto clear_flag(PageEntry *entry, const dts::u32 flag) { return ((*entry) &= ~flag); }
+constexpr static inline auto clear_flag(PageEntry *entry, const dts::u32 flag)
+{
+    return ((*entry) &= ~flag);
+}
 
-constexpr static inline auto set_frame(PageEntry *entry, const physical_address address)
+constexpr static inline auto
+  set_frame(PageEntry *entry, const physical_address address)
 {
     return (*entry = (*entry & ~0xFFFFF000) | address);
 }
 
-PageEntry  *get_page_in_table(PageTable *page_table, const virtual_address address);
-TableEntry *get_page_table_in_directory(PageDirectory *page_directory, const virtual_address address);
+PageEntry *
+  get_page_in_table(PageTable *page_table, const virtual_address address);
+TableEntry *get_page_table_in_directory(
+  PageDirectory        *page_directory,
+  const virtual_address address
+);
 
 PageEntry *get_page(const virtual_address virtual_address);
 void      *allocate_page(PageEntry *page);

@@ -1,10 +1,10 @@
 #pragma once
 
-#include <dts/Memory.hpp>
 #include <dts/Types.hpp>
 
 #include "../Io/SerialPort.hpp"
 #include "../Memory/Paging.hpp"
+#include "Kmalloc.hpp"
 
 namespace Heap {
 
