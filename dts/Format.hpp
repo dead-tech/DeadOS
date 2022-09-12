@@ -14,7 +14,7 @@ struct Formatter
 //       Implement binary and hex formatters
 //       Format integer
 template<typename... Args>
-String format(String &&fmt, Args &&...args)
+String format(String fmt, Args &&...args)
 {
     assert(
       dts::count(fmt, '{') == sizeof...(args),
