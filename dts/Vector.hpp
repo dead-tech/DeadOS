@@ -68,8 +68,8 @@ class Vector
     explicit Vector(const dts::u32 capacity);
     Vector(const T *begin, const T *end, const dts::u32 capacity);
 
-    void grow();
-    void grow_if_necessary(const dts::u32 size);
+    void grow(const dts::u32 new_size);
+    void grow_if_necessary(const dts::u32 new_size);
 
     dts::u32 m_size     = 0;
     dts::u32 m_capacity = 0;
@@ -346,23 +346,21 @@ bool Vector<T>::contains(const T &elem) const
 }
 
 template<typename T>
-void Vector<T>::grow()
+void Vector<T>::grow(const dts::u32 new_size)
 {
-    const auto new_capacity = m_capacity * 2;
+    m_capacity += new_size + 1;
 
-    auto *new_data = reinterpret_cast<T *>(malloc(new_capacity * sizeof(T)));
-
+    auto *new_data = reinterpret_cast<T *>(malloc(m_capacity * sizeof(T)));
     memcpy(new_data, m_data, m_size);
     free(m_data);
 
-    m_capacity = new_capacity;
-    m_data     = new_data;
+    m_data = new_data;
 }
 
 template<typename T>
 void Vector<T>::grow_if_necessary(const dts::u32 new_size)
 {
-    if (m_size + new_size > m_capacity) { grow(); }
+    if (m_capacity <= m_size + new_size) { grow(new_size); }
 }
 
 template<typename T>
