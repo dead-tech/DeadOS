@@ -1,6 +1,7 @@
 #pragma once
 
 #include <dts/Assert.hpp>
+#include <dts/String.hpp>
 #include <dts/Types.hpp>
 
 #include "../DescriptorTables/InterruptServiceRoutine.hpp"

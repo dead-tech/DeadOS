@@ -15,7 +15,7 @@ constexpr static auto welcome_message =
   " | |_| |  __/ (_| | (_| | | |_| |___) |\n"
   " |____/ \\___|\\__,_|\\__,_|  \\___/|____/ \n"
   "                                       \n"
-  " My Operating System written in C++20.";
+  " My Operating System written in C++20.\n\n";
 
 void kassert(
   const char               *expr,
@@ -51,4 +51,5 @@ void main()
     Heap::init(4096 * 32);
     Screen::Framebuffer::clear();
     Screen::Framebuffer::write_cstr(welcome_message);
+    dts::print(" >");
 }

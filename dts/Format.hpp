@@ -55,4 +55,15 @@ String format(String fmt, Args &&...args)
     return result;
 }
 
+template<typename... Args>
+void print(String fmt, Args &&...args)
+{
+    if constexpr (sizeof...(args) > 0) {
+        const auto to_print = format(fmt, args...);
+        asm volatile("int $0x80" : : "a"(2), "b"(to_print.c_str()));
+    } else {
+        asm volatile("int $0x80" : : "a"(2), "b"(fmt.c_str()));
+    }
+}
+
 } // namespace dts

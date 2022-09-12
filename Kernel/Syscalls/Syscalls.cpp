@@ -31,10 +31,22 @@ static void sys_free(
     Heap::free(reinterpret_cast<void *>(ebx));
 }
 
+static void sys_print(
+  [[maybe_unused]] dts::u32 eax,
+  dts::u32                  ebx,
+  [[maybe_unused]] dts::u32 ecx,
+  [[maybe_unused]] dts::u32 edx
+)
+{
+    debug("Print syscall");
+    Screen::Framebuffer::write_cstr(reinterpret_cast<const char *>(ebx));
+}
+
 extern "C" SyscallHandlerFnPtr syscalls_handlers[];
 SyscallHandlerFnPtr            syscalls_handlers[] = {
                sys_malloc,
                sys_free,
+               sys_print,
 };
 
 } // namespace Syscalls
