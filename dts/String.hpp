@@ -14,6 +14,9 @@ bool strcmp(const char *lhs, const char *rhs);
 
 char *itoa(u64 integer, u8 base = 10);
 
+template<typename T>
+struct Formatter;
+
 class String
 {
   public:
@@ -106,5 +109,17 @@ String String::from(const T number)
 
     return reverse(String(buffer)); // NOLINT
 }
+
+template<>
+struct Formatter<const char *>
+{
+    static String format(const char *cstr) { return cstr; }
+};
+
+template<>
+struct Formatter<String>
+{
+    static String format(const String &str) { return str; }
+};
 
 } // namespace dts
