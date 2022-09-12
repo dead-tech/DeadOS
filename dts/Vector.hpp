@@ -80,11 +80,10 @@ Vector(std::initializer_list<T> initializer_list) -> Vector<T>;
 
 template<typename T>
 Vector<T>::Vector(const T *begin, const T *end)
-  : m_size{ static_cast<dts::u32>(end - begin) },
-    m_capacity{ m_size },
+  : m_capacity{ static_cast<dts::u32>(end - begin) },
     m_data{ reinterpret_cast<T *>(malloc(m_capacity * sizeof(T))) }
 {
-    memcpy(m_data, begin, m_size);
+    for (auto *it = begin; it != end; ++it) { push_back(*it); }
 }
 
 template<typename T>
