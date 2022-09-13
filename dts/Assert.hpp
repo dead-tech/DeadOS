@@ -10,9 +10,9 @@ void kassert(
   unsigned    line
 );
 
-#define panic()                           \
-    do {                                  \
-        for (;;) { asm volatile("hlt"); } \
+#define panic()     \
+    do {            \
+        for (;;) {} \
     } while (0)
 
 #define assert(expr, message)                             \
