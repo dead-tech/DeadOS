@@ -25,7 +25,7 @@ void kassert(
 )
 {
     auto formatted_message = dts::format(
-      "[ASSERTION FAILED] -> {}: Expression: `{}`, Error Message: `{}`",
+      "[ASSERTION FAILED] -> {}: Expression: `{}`, Error Message: `{}`"_sv,
       file,
       expr,
       message
@@ -51,5 +51,5 @@ void main()
     Heap::init(4096 * 32);
     Screen::Framebuffer::clear();
     Screen::Framebuffer::write_cstr(welcome_message);
-    dts::print(" >");
+    dts::print("{}>"_sv, "dead@beepboop");
 }
