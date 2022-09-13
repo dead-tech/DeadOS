@@ -1,10 +1,14 @@
 #pragma once
 
 #include "Assert.hpp"
+#include "String.hpp"
 #include "Types.hpp"
 #include "Utility.hpp"
 
 namespace dts {
+
+template<typename T>
+struct Formatter;
 
 template<typename T, dts::u32 Size>
 struct Array
@@ -177,5 +181,20 @@ template<typename T, dts::u32 Size>
 {
     return impl::to_array_impl(array, MakeIndexSequence<Size>{});
 }
+
+template<typename T, dts::u32 Size>
+struct Formatter<Array<T, Size>>
+{
+    static String format(const Array<T, Size> &array)
+    {
+        String result = "dts::Array{ ";
+        for (const auto &item : array) {
+            result += Formatter<DecayT<decltype(item)>>::format(item);
+            result += ", ";
+        }
+        result.push_back('}');
+        return result;
+    } // namespace dts
+};
 
 } // namespace dts
