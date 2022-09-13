@@ -5,6 +5,9 @@
 
 namespace dts {
 
+template<typename T>
+struct Formatter;
+
 class StringView
 {
   public:
@@ -351,6 +354,15 @@ constexpr StringView operator""_sv(const char *cstr, const dts::u32 len)
     return StringView{ cstr, len };
 }
 } // namespace literals
+
+template<>
+struct Formatter<StringView>
+{
+    static String format(const StringView &view)
+    {
+        return String{ view.data() };
+    }
+};
 
 } // namespace dts
 
