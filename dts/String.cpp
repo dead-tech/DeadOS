@@ -1,4 +1,5 @@
 #include "String.hpp"
+#include "StringView.hpp"
 
 namespace dts {
 
@@ -192,7 +193,7 @@ String &String::operator+=(const char *other)
     return *this;
 }
 
-String &String::operator+=(const dts::String &other)
+String &String::operator+=(const String &other)
 {
     const auto other_len = other.size();
     grow_if_necessary(other_len);
@@ -201,12 +202,21 @@ String &String::operator+=(const dts::String &other)
     return *this;
 }
 
-bool String::operator==(const dts::String &rhs) const
+String &String::operator+=(const StringView &view)
+{
+    const auto other_len = view.size();
+    grow_if_necessary(other_len);
+
+    for (dts::u32 i = 0; i < other_len; ++i) { m_data[m_size++] = view[i]; }
+    return *this;
+}
+
+bool String::operator==(const String &rhs) const
 {
     return strcmp(c_str(), rhs.c_str());
 }
 
-bool String::operator!=(const dts::String &rhs) const
+bool String::operator!=(const String &rhs) const
 {
     return !strcmp(c_str(), rhs.c_str());
 }
@@ -226,7 +236,7 @@ bool String::starts_with(const char *other)
     return true;
 }
 
-bool String::starts_with(const dts::String &other)
+bool String::starts_with(const String &other)
 {
     if (m_size < other.size()) { return false; }
 
@@ -252,7 +262,7 @@ bool String::ends_with(const char *other)
     return true;
 }
 
-bool String::ends_with(const dts::String &other)
+bool String::ends_with(const String &other)
 {
     if (m_size < other.size()) { return false; }
 

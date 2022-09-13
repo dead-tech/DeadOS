@@ -8,6 +8,8 @@
 
 namespace dts {
 
+class StringView;
+
 constexpr u32 strlen(const char *str)
 {
     u32 len = 0;
@@ -74,6 +76,7 @@ class String
     void                   pop_back();
     String                &operator+=(const char *other);
     String                &operator+=(const String &other);
+    String                &operator+=(const StringView &view);
     [[nodiscard]] bool     operator==(const String &rhs) const;
     [[nodiscard]] bool     operator!=(const String &rhs) const;
     [[nodiscard]] bool     starts_with(const char other);
