@@ -14,8 +14,8 @@ class StringView
 
     constexpr static dts::u32 npos = -1;
 
-    constexpr StringView() noexcept  = default;
-    constexpr ~StringView() noexcept = default;
+    constexpr StringView() noexcept = default;
+    ~StringView() noexcept          = default;
     constexpr explicit StringView(const char *cstr) noexcept;
     constexpr StringView(const char *cstr, const dts::u32 len) noexcept;
     constexpr StringView(const char *begin, const char *end) noexcept;
