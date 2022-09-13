@@ -1,12 +1,10 @@
 #pragma once
 
+#include "Forward.hpp"
 #include "String.hpp"
 #include "Types.hpp"
 
 namespace dts {
-
-template<typename T>
-struct Formatter;
 
 class StringView
 {

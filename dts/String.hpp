@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Forward.hpp"
 #include <dts/Algorithm.hpp>
 #include <dts/Assert.hpp>
 #include <dts/Memory.hpp>
@@ -7,8 +8,6 @@
 #include <dts/Utility.hpp>
 
 namespace dts {
-
-class StringView;
 
 constexpr u32 strlen(const char *str)
 {
@@ -22,9 +21,6 @@ void strcpy(char *dst, char *src);
 bool strcmp(const char *lhs, const char *rhs);
 
 char *itoa(u64 integer, u8 base = 10);
-
-template<typename T>
-struct Formatter;
 
 class String
 {

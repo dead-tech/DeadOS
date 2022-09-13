@@ -3,6 +3,7 @@
 #include "Assert.hpp"
 #include "Format.hpp"
 #include "Memory.hpp"
+#include "String.hpp"
 #include "Types.hpp"
 #include "Utility.hpp"
 
